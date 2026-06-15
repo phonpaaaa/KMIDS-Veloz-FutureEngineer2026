@@ -4,7 +4,7 @@ A robotics and engineering project focused on CAD design and system development.
 
 Test Image
 
-![Project image](assets/edrupng.png)
+![Project image](assets/testimage.png)
 
 Other stuff are tests
 
