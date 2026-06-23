@@ -24,6 +24,8 @@ This project gave us experience in autonomous vehicle development and taught us 
 
 ### 1.3 Performance Video
 
+---
+
 ## 2. List of Components
 
 | Component | Quantity |
@@ -43,6 +45,62 @@ This project gave us experience in autonomous vehicle development and taught us 
 | Step-Down Converter | 1 |
 | DRV8871 Driver | 1 |
 
-## 7. 3D Model Files
+---
 
-STL and CAD files used in the construction of the robot are provided in this repository.
+## 3. Mechanical Design
+
+We mainly designed in FreeCAD first, then printed for the real thing.
+
+### 3.1 Chassis
+
+### 3.2 Steering Mechanism
+
+### 3.3 Drive System
+
+---
+
+## 4. Electronics
+
+### 4.1 Main Controller
+
+### 4.2 Sensors
+
+### 4.3 Motor Drivers
+
+### 4.4 Power Distribution
+
+---
+
+## 5. Software
+
+### 5.1 Programming Language
+
+We used C++ Programming language and other git stuff
+
+### 5.2 Computer Vision
+
+### 5.3 Vehicle Control
+
+### 5.4 Communication
+
+---
+
+## 6. Development Process
+
+### 6.1 Prototype
+
+### 6.2 Testing
+
+### 6.3 Improvements
+
+### 6.4 Challenges
+
+---
+
+## 7. Repository Structure
+
+```text
+assets/      Images and videos
+cad/         CAD and STL files
+src/         Source code
+README.md    Project documentation
