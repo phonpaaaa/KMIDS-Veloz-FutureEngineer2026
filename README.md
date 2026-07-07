@@ -115,7 +115,7 @@ Using CAD before manufacturing allows us to verify dimensions, improve packaging
 
 The chassis acts as the structural foundation of the robot. It supports the drivetrain, steering assembly, sensors, electronics, batteries, and mounting hardware while maintaining rigidity and allowing easy maintenance.
 
-Future documentation can include exploded views, measurements, and weight distribution analysis.
+Future documentation will include exploded views, measurements, and weight distribution analysis.
 
 ## 3.2 Steering Mechanism
 
