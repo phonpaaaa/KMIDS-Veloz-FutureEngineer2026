@@ -86,7 +86,7 @@ All mechanical parts are modeled in FreeCAD before printing. The CAD source is o
 
 ### 3.1 Chassis
 
-The chassis (`Chassis.FCStd`) is the structural base for the drivetrain, steering assembly, electronics stack, and LIDAR mount. <!-- TODO: add chassis width/length/height, wheelbase, and track width — pull these directly from the FreeCAD model's dimension constraints. -->
+The chassis (`Chassis.FCStd`) is the structural base for the drivetrain, steering assembly, electronics stack, and LIDAR mount. The finished chassis body measures **244mm (width) × 135mm (length) × 59mm (height)**, built up from a base plate through a series of pads and pockets in FreeCAD for mounting cutouts, wire routing gaps, and standoff holes, with fillets applied on the final edges. <!-- TODO: add wheelbase (front-to-rear axle distance) and track width (left-to-right wheel distance) — these aren't part of the chassis body bounding box, so they need either a physical measurement or the assembly file with axle holder positions. -->
 
 ### 3.2 Steering
 
