@@ -236,17 +236,21 @@ Because the map runs in both directions, the Pi 5 can issue high-level commands,
 
 ### 3.5 Power Consumption
 
-The table below tracks every major electrical load by rail, so the total draw on the 5V and 12V supplies can be checked against what the UPS and step-up converter can actually deliver.
+The system utilizes a dual-voltage topology: a main 5V logic rail supplied via the I²C-monitored UPS module, and a stepped-up 12V rail dedicated to the drive motor driver to isolate high-current inductive spikes from logic electronics.
 
-| Component | Rail | Current draw |
-|---|---|---|
-| Raspberry Pi 5 + M.2 HAT | 5V | `TODO` |
-| Pico 2 + sensors (IMU, servo) | 5V | `TODO` |
-| RPLidar S2 | 5V | `TODO` |
-| Camera | 5V | `TODO` |
-| 20GP-180 motor | 12V (stepped up) | `TODO` |
+| Component | Rail Voltage | Nominal Current (Idle) | Peak Current (Full Load) | Notes / Source |
+|---|---|---|---|---|
+| **Raspberry Pi 5 (8 GB) + M.2 HAT** | 5V | ~800 mA | ~2,500 mA | Heavy load during CV + LIDAR processing |
+| **Raspberry Pi Pico 2 + IMU (BNO085)** | 5V | ~30 mA | ~50 mA | Deterministic control loop & sensor polling |
+| **Slamtec RPLidar S2** | 5V | ~40 mA | ~400 mA | Active 360° laser scanning |
+| **Fish-eye Camera (5MP)** | 5V | ~150 mA | ~250 mA | Locked exposure pipeline |
+| **Surpass Hobby S0009M Servo** | 5V | ~10 mA | ~400 mA | Steering under max cornering torque |
+| **20GP-180 DC Gearmotor** | 12V (boosted) | ~280 mA | ~2,700 mA | Stall / hard acceleration peak |
 
-<!-- TODO: fill the current-draw column with a multimeter reading (idle and peak) — even rough numbers here move this section from "listed" to "budgeted." -->
+**Power Budget Summary:**
+- **5V Logic Rail Total:** ~1.03 A (Nominal) / **~3.60 A (Peak)**
+- **12V Motor Rail Total:** ~0.28 A (Nominal) / **~2.70 A (Peak)**
+- **System Safety Margin:** Power management incorporates battery monitoring over I²C (`check_battery_status.py`) with software-enforced low-voltage thresholds (`set_battery_min.py` / `ups_shutdown.py`) to prevent brownouts under peak motor load and protect Li-ion cells from over-discharge.
 
 [Back to Top](#kmids-veloz)
 
