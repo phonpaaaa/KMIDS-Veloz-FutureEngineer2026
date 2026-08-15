@@ -20,9 +20,9 @@
 - **Phisit Chuthomsuwan (Champ)**
 
 <!-- IMAGE: Team photo -->
-![Team photo — TODO](assets/team.jpg)
+![Team photo — TODO](assets/team.png)
 
-KMIDS Veloz is a team of students exploring autonomous driving through mechanical design, embedded systems, computer vision, and control theory. This repository documents our full engineering process for the WRO Future Engineers 2026 season: hardware selection, CAD, electronics, software architecture, and the testing/iteration behind our design decisions.
+KMIDS Veloz is a student engineering team developing an autonomous vehicle for the WRO Future Engineers 2026 challenge. Our robot combines a Raspberry Pi 5 and Raspberry Pi Pico 2 architecture with LIDAR, camera vision, and an IMU to perceive the track and control the vehicle in real time. The Pi 5 handles perception, sensor fusion, and high-level decisions, while the Pico 2 handles deterministic motor and steering control. This repository documents our mechanical design, electronics, software, testing, and engineering iterations throughout development.
 
 ---
 
@@ -137,7 +137,7 @@ The finished chassis body measures **244mm (long axis) × 135mm (short axis) × 
 | Chassis (L × W × H) | 244 × 135 × 59 mm |
 | Wheelbase (front-to-rear axle) | 185 mm |
 | Track width (left-to-right wheel) | 85 mm |
-| Wheel diameter | `TODO — measure and add` |
+| Wheel diameter | 54.7 mm |
 
 <!-- IMAGE: Annotated CAD assembly (full robot, labeled: chassis, steering, motor, electronics stack) -->
 ![Annotated CAD assembly — TODO](assets/cad_assembly.png)
