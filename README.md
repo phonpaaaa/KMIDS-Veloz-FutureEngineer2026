@@ -7,7 +7,7 @@
 > Designing, building, and continuously improving an autonomous vehicle for the World Robot Olympiad Future Engineers challenge.
 
 <!-- IMAGE: Robot overview photo (final robot, 3/4 angle, clean background) -->
-![Robot overview — TODO: replace with real photo](assets/robot_overview.jpg)
+![Robot overview](assets/robot_overview.jpg)
 
 </div>
 
@@ -127,7 +127,7 @@ This section covers how the robot moves: what drives the rear wheels, how the fr
 The robot uses a single **20GP-180 DC gearmotor with an integrated quadrature encoder** to drive the rear wheels. Power is transferred from the motor through a printed gear system (`MotorGear.FCStd`), while encoder feedback is wired back to the Raspberry Pi Pico 2 so wheel rotation can be measured directly instead of assumed.
 
 <!-- IMAGE: 20GP-180 motor photo -->
-![20GP-180 DC gearmotor](assets/20gp180_motor.jpg)
+![20GP-180 DC gearmotor — TODO: replace with real photo](assets/20gp180_motor.jpg)
 
 #### Motor: 20GP-180 DC Gearmotor
 
@@ -157,17 +157,17 @@ The 20GP-180 family is sold across several gear ratios with no-load speed and st
 **Motor gear:** power from the motor is transferred through a printed motor gear (`MotorGear.FCStd`).
 
 <!-- IMAGE: Motor gear -->
-![Motor gear](assets/motor_gear.jpg)
+![Motor gear — TODO: replace with real photo](assets/motor_gear.jpg)
 
 The gear is a separate printed component rather than being integrated directly into the chassis, which makes the drivetrain easier to modify if the motor, gear ratio, or wheel configuration changes during development. Our CAD parts list also includes `LegoBevelGear.FCStd` and `LegoDifferentialGear.FCStd` — we use off-the-shelf LEGO Technic gear elements paired with a `16GA.FCStd` axle rod inside the rear axle assembly rather than designing custom bevel/differential gearing from scratch, which saved print-and-fit iteration on a part that's easy to get wrong and cheap to buy correct.
 
 **Motor mounting:** the motor is mounted using a printed motor holder and a detachable motor plate.
 
 <!-- IMAGE: Motor holder -->
-![Motor holder](assets/motor_holder.jpg)
+![Motor holder — TODO: replace with real photo](assets/motor_holder.jpg)
 
 <!-- IMAGE: Motor plate -->
-![Motor plate](assets/motor_plate.jpg)
+![Motor plate — TODO: replace with real photo](assets/motor_plate.jpg)
 
 Relevant CAD files: `MotorHolder.FCStd`, `MotorPlate.FCStd`, `MotorGear.FCStd`.
 
@@ -222,7 +222,7 @@ The diagram above is a general technical reference for the Ackermann geometry pr
 #### Servo: Surpass Hobby S0009M (9g digital)
 
 <!-- IMAGE: Servo photo -->
-![Surpass Hobby S0009M servo](assets/servo.jpg)
+![Surpass Hobby S0009M servo — TODO: replace with real photo](assets/servo.jpg)
 
 **Specifications**
 
@@ -239,7 +239,7 @@ The diagram above is a general technical reference for the Ackermann geometry pr
 #### Linkages
 
 <!-- IMAGE: T-bone and transfer linkage parts -->
-![Steering linkage parts](assets/steering_linkages.jpg)
+![Steering linkage parts — TODO: replace with real photo](assets/steering_linkages.jpg)
 
 The T-bone linkage connects the servo horn to the two transfer linkages, which in turn connect to the wheel linkages at each front wheel. Splitting the linkage into separate printed parts (rather than one solid arm) lets us adjust pivot points and re-print a single part if a specific linkage geometry needs revising, instead of reprinting the whole steering assembly.
 
@@ -250,7 +250,7 @@ The physical steering range is constrained in firmware, not just by the linkage 
 #### Mounting
 
 <!-- IMAGE: Servo mounting on front plate -->
-![Servo mounting](assets/servo_mounting.jpg)
+![Servo mounting — TODO: replace with real photo](assets/servo_mounting.jpg)
 
 The servo is screwed directly into a platform plate at the front of the chassis, connected to the steering mechanism described above.
 
@@ -272,7 +272,7 @@ The finished chassis body measures **244mm (long axis) × 135mm (short axis) × 
 | Wheel diameter | 54.7 mm |
 
 <!-- IMAGE: Annotated CAD assembly (full robot, labeled: chassis, steering, motor, electronics stack) -->
-![Annotated CAD assembly](assets/cad_assembly.png)
+![Annotated CAD assembly — TODO: add once assembly is finalized](assets/cad_assembly.png)
 
 The full annotated CAD assembly render will be added once the complete assembly is finalized in FreeCAD; individual part renders/photos are used elsewhere in this document in the meantime.
 
@@ -311,7 +311,15 @@ Each sensor's mounting position was chosen for a specific reason tied to what it
 
 **Camera calibration and pipeline:** our camera pipeline captures at 640×480 @ 30fps over a GStreamer/`libcamerasrc` pipeline (`libcamerasrc ! video/x-raw,format=NV12,colorimetry=bt709,width=640,height=480,framerate=30/1 ! queue ! videoconvert ! video/x-raw,format=BGR ! appsink drop=true max-buffers=1 sync=false`). The `drop=true max-buffers=1 sync=false` appsink configuration always hands the processing loop the newest available frame and discards anything older, rather than letting frames queue up if a loop iteration runs slow — for a reactive controller a stale frame is worse than a dropped one. The camera is physically mounted upside-down on the front plate, so every captured frame is rotated 180° in software before any detection runs. Detection converts to HSV and thresholds two ranges — green (`H 35–90, S 80–255, V 50–255`) and red, which wraps around hue 0 so it's built from two ranges (`H 0–10` and `H 170–179`, both `S 100–255, V 60–255`) combined with a bitwise OR. Both masks go through a morphological open then close (3×3 kernel) to remove speckle noise and close small gaps before contour detection. Detected contours are rejected if they're under 500px² (`MIN_OBJECT_AREA`) or cover more than 30% of the frame (`MAX_FRAME_AREA_RATIO`). A further shape filter requires `height > width * 1.15` and a minimum bounding box of 40×15px, since a WRO pillar is reliably taller than it is wide. Exposure/white balance are still on the pipeline's defaults rather than explicitly locked — that's next once we're tuning thresholds against actual competition-venue lighting.
 
+<!-- IMAGE: Camera detection pipeline -->
+![Camera detection pipeline](assets/camera_pipeline.png)
+
 **LIDAR filtering pipeline:** raw scan points outside 40mm–9000mm are discarded before any further processing (`lidar.cpp`). Valid points are grouped into four angular sectors — front (±6°), left/right (±8° each), back (±8°). Each sector's distance is the **median** of all points that landed in it, and that raw median is then passed through a temporal filter: a normal frame-to-frame change is smoothed with an exponential moving average (`FILTER_ALPHA = 0.40`), but a jump larger than 1200mm is only accepted once it's been seen for 3 consecutive frames (`JUMP_CONFIRM_FRAMES`) — this stops a single bad LIDAR return from producing a one-frame phantom wall or opening. The navigation controller (Section 4.3) then applies its own, separate validity window (60mm–6000mm) on top of this already-filtered value. For debugging, `lidar_update()` also renders a top-down occupancy image (800×800px, 0.08 px/mm) with the raw point cloud, Hough-transform-detected wall line segments, and range rings, saved to disk every scan — useful for bench tuning; disabling that continuous write for the competition build is on our list (Section 12.2).
+
+<!-- IMAGE: LIDAR angular sector diagram -->
+![LIDAR angular sectors](assets/lidar_sectors.png)
+
+The diagram above shows the four angular sectors (front ±6°, left/right ±8°, back ±8°) the raw point cloud is grouped into before the median + EMA filtering described above is applied — narrower sectors than an earlier ±15° version, specifically to keep an adjacent wall or opening from bleeding into the wrong sector's reading.
 
 **Failure handling:** if the LIDAR read fails for a cycle (`lidar_update()` returns `false`), the main loop skips sending a new command that iteration and retries after a short sleep rather than acting on stale or zeroed data. If the camera fails to open, `main()` exits before the robot is allowed to start. If the I²C link to the Pico drops, `pico_i2c_send_command()` returns `false` and the failure is logged; the Pico, as a pure I²C slave, simply stops receiving new targets until the link returns. An explicit retry/reconnect path for the I²C link, and a defined Pico-side behavior if it stops receiving commands for too many cycles, are both still open items (Section 6, Section 12.2).
 
@@ -393,6 +401,11 @@ The active Raspberry Pi 5 codebase (project `RaspberryPi5Controller`, built exec
 | `pico_i2c.cpp` / `pico_i2c.h` | Sends `PicoCommand`s to and reads `PicoTelemetry` from the Pico 2 |
 | `start_button.cpp` / `start_button.h` | Reads the physical start button (GPIO 16, libgpiod v2, active-low with a 30ms hardware debounce) |
 | `main.cpp` | Wires the above together into the main loop |
+
+<!-- IMAGE: Pi 5 software module / data-flow diagram -->
+![Pi 5 software module and data flow](assets/software_architecture.png)
+
+The diagram above shows how `main.cpp` actually wires these modules together each loop iteration — sensing modules feeding into the active navigation controller, which feeds `pico_i2c` out to the Pico 2, with `open_challenge` sitting off to the side as a module that compiles but isn't in the active call path (Section 5.1).
 
 ### 4.2 Sensing Modules
 
