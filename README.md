@@ -322,6 +322,9 @@ Each sensor's mounting position was chosen for a specific reason tied to what it
 | Raspberry Pi 5 | I²C master | LIDAR distance sensing, camera pillar detection, reactive navigation decision-making |
 | Raspberry Pi Pico 2 | I²C slave (address `0x39`) | Executes motor/steering commands, reports encoder + IMU telemetry |
 
+<!-- IMAGE: Pi 5 / Pico 2 I2C master-slave relationship -->
+![I2C master/slave relationship](assets/i2c_master_slave.png)
+
 The Pi 5 handles sensing and decision-making because that workload isn't hard-real-time; it can tolerate an occasional slow frame without breaking anything downstream. Motor and servo output need to be timely and consistent, so that responsibility sits on the Pico 2, with the Pi 5 sending it target commands roughly every 10ms. Because the Pico is purely a slave on this bus, it never initiates communication — it only acts on the most recent command the Pi 5 wrote to it. Section 4 covers the current software split in detail.
 
 ### 3.4 Circuit Diagram
