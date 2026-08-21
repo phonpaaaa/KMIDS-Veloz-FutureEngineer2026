@@ -86,20 +86,20 @@ The six required orientation views, four additional angled shots, and a photo of
 <!-- IMAGES: required six views, using our actual filenames -->
 | Front | Rear | Left |
 |---|---|---|
-| ![Front](assets/front_view.jpg) | ![Rear](assets/rear_view.jpg) | ![Left](assets/left_view.jpg) |
+| ![Front](assets/front_view.png) | ![Rear](assets/rear_view.png) | ![Left](assets/left_view.png) |
 
 | Right | Top | Bottom |
 |---|---|---|
-| ![Right](assets/right_view.jpg) | ![Top](assets/top_view.jpg) | ![Bottom](assets/bottom_view.jpg) |
+| ![Right](assets/right_view.png) | ![Top](assets/top_view.png) | ![Bottom](assets/bottom_view.png) |
 
 **Additional angles:**
 
 | Left side | Left-rear | Right side | Right-rear |
 |---|---|---|---|
-| ![Left side](assets/left_side_view.jpg) | ![Left rear](assets/left_back_side_view.jpg) | ![Right side](assets/right_side_view.jpg) | ![Right rear](assets/right_back_side_view.jpg) |
+| ![Left side](assets/left_side_view.png) | ![Left rear](assets/left_back_side_view.png) | ![Right side](assets/right_side_view.png) | ![Right rear](assets/right_back_side_view.png) |
 
 <!-- IMAGE: Internal electronics — open chassis or component stack, shows sensor/board placement -->
-![Internal electronics](assets/internals.jpg)
+![Internal electronics](assets/internals.png)
 
 Section 3.2 also includes a labeled top-down sensor placement diagram (`assets/sensor_placement.png`) showing LIDAR, camera, and IMU positions schematically.
 
