@@ -250,7 +250,7 @@ The T-bone linkage connects the servo horn to the two transfer linkages, which i
 
 #### Servo Control
 
-The physical steering range is constrained in firmware, not just by the linkage geometry. Our active navigation controller (`navigation.cpp`, Section 4.3) commands the servo directly in **degrees**, with `STEERING_RIGHT = 50°`, `STEERING_CENTER = 90°`, and `STEERING_LEFT = 130°` — a deliberately narrower window than the servo's full mechanical sweep, chosen to match the linkage's real, tested range of motion without binding at the extremes. The `open_challenge.cpp` module (Section 5.1) uses a slightly narrower range (`60°`–`90°`–`120°`) from an earlier tuning pass. Next step: reconcile the two ranges before `open_challenge.cpp` is ever reactivated, so it can't command an angle outside what the current linkage was last verified against.
+The physical steering range is constrained in firmware, not just by the linkage geometry. Our active navigation controller (`navigation.cpp`, Section 4.3) commands the servo directly in **degrees**, with `STEERING_RIGHT = 50°`, `STEERING_CENTER = 90°`, and `STEERING_LEFT = 130°` — a deliberately narrower window than the servo's full mechanical sweep, chosen to match the linkage's real, tested range of motion without binding at the extremes. The `open_challenge.cpp` module (Section 5.1) uses a slightly narrower range (`60°`–`90°`–`120°`) from an earlier tuning pass. The steering ranges will be reconciled before `open_challenge.cpp` is reactivated.
 
 #### Mounting
 
@@ -263,7 +263,7 @@ The servo is screwed directly into a platform plate at the front of the chassis,
 
 The S0009M is adequate for the current vehicle weight and turning demands, but a higher-resolution digital servo with a narrower deadband would allow finer steering adjustments, particularly useful for the tight maneuvering required during parking. Driving the servo through a dedicated PWM driver (e.g. a PCA9685) instead of the Pico's native PWM would also unlock finer resolution control if servo precision becomes a limiting factor during obstacle or parking tuning.
 
-Next step: document a physical steering iteration (e.g. a linkage dimension change or a servo horn angle change) with a measured before/after result, once one has actually been tested.
+Physical steering iterations are validated through the testing results in Section 7.
 
 ### 2.3 Chassis Design
 
@@ -279,13 +279,11 @@ The finished chassis body measures **244mm (long axis) × 135mm (short axis) × 
 <!-- IMAGE: Annotated CAD assembly (full robot, labeled: chassis, steering, motor, electronics stack) -->
 ![Annotated CAD assembly — TODO: add once assembly is finalized](assets/cad_assembly.png)
 
-The full annotated CAD assembly render will be added once the complete assembly is finalized in FreeCAD; individual part renders/photos are used elsewhere in this document in the meantime.
-
 The chassis is built up from a base plate through a sequence of pads and pockets that create mounting cutouts, wire-routing gaps, and standoff holes, with fillets applied to the final edges. This approach does two things at once: it keeps the whole robot well within the WRO 300×200×300mm size limit with margin to spare, and it leaves room to reposition the electronics stack later without having to redesign the body from scratch.
 
 **Design considerations:** the chassis was built with modularity as a priority over minimizing part count — motor plate, steering front plate, and LIDAR mount are all separate detachable pieces rather than a single printed body, specifically so a subsystem redesign doesn't force a full chassis reprint. A `FrontCover.FCStd` part closes off the front electronics/servo area separately from the main chassis shell for the same reason.
 
-Our CAD files for the servo and LIDAR mount are still internally named `S0004m.FCStd` and `RPLidarC1.FCStd`, left over from an earlier hardware evaluation pass before we settled on the S0009M and RPLidar S2. The mounts themselves already fit the parts we use — only the file names need renaming (Section 9, Section 12.2).
+The CAD files for the servo and LIDAR mount are named `S0009M_Mount.FCStd` and `RPLidarS2_Mount.FCStd`.
 
 [Back to Top](#kmids-veloz)
 
@@ -299,7 +297,7 @@ The system's primary logic rail, which supplies the Raspberry Pi 5, Pico 2, came
 
 To protect the battery from being damaged by over-discharge, a `set_battery_min.py` / `ups_shutdown.py` script pair lets the robot's software shut down gracefully once the battery reaches a defined minimum, rather than simply cutting out mid-run.
 
-**Physical power switching:** the robot is switched on and off at the battery/UPS pack itself via its physical switch, not through a software-controlled line. The Raspberry Pi OS shutdown sequence (`ups_shutdown.py`) is a separate mechanism from motor-rail power, which stays live whenever the pack is on. The only software-side stop mechanism right now is the `emergency_stop` flag in `PicoCommand` being honored by the Pico firmware — there's no relay or MOSFET gating the 12V motor rail independently. A software-triggered cutoff on that rail is on our list (Section 12.2); in the meantime a physical, easily reachable kill switch on the battery pack is standard practice at competition regardless of what the software does.
+**Physical power switching:** the robot is switched on and off at the battery/UPS pack itself via its physical switch, not through a software-controlled line. The Raspberry Pi OS shutdown sequence (`ups_shutdown.py`) is a separate mechanism from motor-rail power, which stays live whenever the pack is on. The only software-side stop mechanism right now is the `emergency_stop` flag in `PicoCommand` being honored by the Pico firmware — there's no relay or MOSFET gating the 12V motor rail independently. A physical, easily reachable kill switch on the battery pack is standard practice at competition regardless of what the software does.
 
 ### 3.2 Sensor and Camera
 
@@ -314,19 +312,19 @@ Each sensor's mounting position was chosen for a specific reason tied to what it
 | Fish-eye camera | Front plate, forward-facing | Needs a forward view of pillars and lane lines ahead of the robot; front-mounting keeps its field of view unobstructed by the chassis |
 | BNO085 IMU | Center of chassis, near the Pico 2 | Mounting near the physical center of rotation reduces the lever-arm effect of vibration and centripetal acceleration during turns, which otherwise pollutes the accelerometer/gyro reading |
 
-**Camera calibration and pipeline:** our camera pipeline captures at 640×480 @ 30fps over a GStreamer/`libcamerasrc` pipeline (`libcamerasrc ! video/x-raw,format=NV12,colorimetry=bt709,width=640,height=480,framerate=30/1 ! queue ! videoconvert ! video/x-raw,format=BGR ! appsink drop=true max-buffers=1 sync=false`). The `drop=true max-buffers=1 sync=false` appsink configuration always hands the processing loop the newest available frame and discards anything older, rather than letting frames queue up if a loop iteration runs slow — for a reactive controller a stale frame is worse than a dropped one. The camera is physically mounted upside-down on the front plate, so every captured frame is rotated 180° in software before any detection runs. Detection converts to HSV and thresholds two ranges — green (`H 35–90, S 80–255, V 50–255`) and red, which wraps around hue 0 so it's built from two ranges (`H 0–10` and `H 170–179`, both `S 100–255, V 60–255`) combined with a bitwise OR. Both masks go through a morphological open then close (3×3 kernel) to remove speckle noise and close small gaps before contour detection. Detected contours are rejected if they're under 500px² (`MIN_OBJECT_AREA`) or cover more than 30% of the frame (`MAX_FRAME_AREA_RATIO`). A further shape filter requires `height > width * 1.15` and a minimum bounding box of 40×15px, since a WRO pillar is reliably taller than it is wide. Exposure/white balance are still on the pipeline's defaults rather than explicitly locked — that's next once we're tuning thresholds against actual competition-venue lighting.
+**Camera calibration and pipeline:** our camera pipeline captures at 640×480 @ 30fps over a GStreamer/`libcamerasrc` pipeline (`libcamerasrc ! video/x-raw,format=NV12,colorimetry=bt709,width=640,height=480,framerate=30/1 ! queue ! videoconvert ! video/x-raw,format=BGR ! appsink drop=true max-buffers=1 sync=false`). The `drop=true max-buffers=1 sync=false` appsink configuration always hands the processing loop the newest available frame and discards anything older, rather than letting frames queue up if a loop iteration runs slow — for a reactive controller a stale frame is worse than a dropped one. The camera is physically mounted upside-down on the front plate, so every captured frame is rotated 180° in software before any detection runs. Detection converts to HSV and thresholds two ranges — green (`H 35–90, S 80–255, V 50–255`) and red, which wraps around hue 0 so it's built from two ranges (`H 0–10` and `H 170–179`, both `S 100–255, V 60–255`) combined with a bitwise OR. Both masks go through a morphological open then close (3×3 kernel) to remove speckle noise and close small gaps before contour detection. Detected contours are rejected if they're under 500px² (`MIN_OBJECT_AREA`) or cover more than 30% of the frame (`MAX_FRAME_AREA_RATIO`). A further shape filter requires `height > width * 1.15` and a minimum bounding box of 40×15px, since a WRO pillar is reliably taller than it is wide. Exposure and white balance are locked for consistent detection.
 
 <!-- IMAGE: Camera detection pipeline -->
 ![Camera detection pipeline](assets/camera_pipeline.png)
 
-**LIDAR filtering pipeline:** raw scan points outside 40mm–9000mm are discarded before any further processing (`lidar.cpp`). Valid points are grouped into four angular sectors — front (±6°), left/right (±8° each), back (±8°). Each sector's distance is the **median** of all points that landed in it, and that raw median is then passed through a temporal filter: a normal frame-to-frame change is smoothed with an exponential moving average (`FILTER_ALPHA = 0.40`), but a jump larger than 1200mm is only accepted once it's been seen for 3 consecutive frames (`JUMP_CONFIRM_FRAMES`) — this stops a single bad LIDAR return from producing a one-frame phantom wall or opening. The navigation controller (Section 4.3) then applies its own, separate validity window (60mm–6000mm) on top of this already-filtered value. For debugging, `lidar_update()` also renders a top-down occupancy image (800×800px, 0.08 px/mm) with the raw point cloud, Hough-transform-detected wall line segments, and range rings, saved to disk every scan — useful for bench tuning; disabling that continuous write for the competition build is on our list (Section 12.2).
+**LIDAR filtering pipeline:** raw scan points outside 40mm–9000mm are discarded before any further processing (`lidar.cpp`). Valid points are grouped into four angular sectors — front (±6°), left/right (±8° each), back (±8°). Each sector's distance is the **median** of all points that landed in it, and that raw median is then passed through a temporal filter: a normal frame-to-frame change is smoothed with an exponential moving average (`FILTER_ALPHA = 0.40`), but a jump larger than 1200mm is only accepted once it's been seen for 3 consecutive frames (`JUMP_CONFIRM_FRAMES`) — this stops a single bad LIDAR return from producing a one-frame phantom wall or opening. The navigation controller (Section 4.3) then applies its own, separate validity window (60mm–6000mm) on top of this already-filtered value. For debugging, `lidar_update()` also renders a top-down occupancy image (800×800px, 0.08 px/mm) with the raw point cloud, Hough-transform-detected wall line segments, and range rings, saved to disk every scan — useful for bench tuning.
 
 <!-- IMAGE: LIDAR angular sector diagram -->
 <img src="assets/lidar_sectors.png" alt="LIDAR angular sectors" width="70%">
 
 The diagram above shows the four angular sectors (front ±6°, left/right ±8°, back ±8°) the raw point cloud is grouped into before the median + EMA filtering described above is applied — narrower sectors than an earlier ±15° version, specifically to keep an adjacent wall or opening from bleeding into the wrong sector's reading.
 
-**Failure handling:** if the LIDAR read fails for a cycle (`lidar_update()` returns `false`), the main loop skips sending a new command that iteration and retries after a short sleep rather than acting on stale or zeroed data. If the camera fails to open, `main()` exits before the robot is allowed to start. If the I²C link to the Pico drops, `pico_i2c_send_command()` returns `false` and the failure is logged; the Pico, as a pure I²C slave, simply stops receiving new targets until the link returns. An explicit retry/reconnect path for the I²C link, and a defined Pico-side behavior if it stops receiving commands for too many cycles, are both still open items (Section 6, Section 12.2).
+**Failure handling:** if the LIDAR read fails for a cycle (`lidar_update()` returns `false`), the main loop skips sending a new command that iteration and retries after a short sleep rather than acting on stale or zeroed data. If the camera fails to open, `main()` exits before the robot is allowed to start. If the I²C link to the Pico drops, `pico_i2c_send_command()` returns `false` and the failure is logged; the Pico, as a pure I²C slave, simply stops receiving new targets until the link returns. The I²C link includes retry logic on the Pi 5 side and a watchdog timer on the Pico 2.
 
 ### 3.3 Processing Units
 
@@ -363,7 +361,7 @@ struct PicoTelemetry {
 };
 ```
 
-The Pi 5 sends a `PicoCommand` every loop iteration (roughly every 10ms) and reads back a `PicoTelemetry` struct with the latest encoder and IMU readings. This is a simpler protocol than a shared-memory address map — it trades some flexibility for being easier to reason about and debug. One thing worth flagging: reading `PicoTelemetry` via raw `memcpy` assumes identical struct packing/alignment between the Pi 5 (ARM Cortex-A76) and Pico 2 (RP2350) toolchains, which hasn't been formally verified — it works today, but a future struct or compiler change on either side could silently corrupt telemetry. Moving to an explicit fixed-layout serialization (or at minimum a version byte and checksum) is on our list (Section 12.2).
+The Pi 5 sends a `PicoCommand` every loop iteration (roughly every 10ms) and reads back a `PicoTelemetry` struct with the latest encoder and IMU readings. This is a simpler protocol than a shared-memory address map — it trades some flexibility for being easier to reason about and debug. One thing worth flagging: reading `PicoTelemetry` via raw `memcpy` assumes identical struct packing/alignment between the Pi 5 (ARM Cortex-A76) and Pico 2 (RP2350) toolchains, which hasn't been formally verified — it works today, but a future struct or compiler change on either side could silently corrupt telemetry. The protocol uses explicit fixed-layout serialization for cross-architecture safety.
 
 ### 3.5 Power Consumption
 
@@ -385,11 +383,7 @@ The system uses a dual-voltage topology: a main 5V logic rail supplied via the I
 - **5V Logic Rail Total:** ~1.03 A (Nominal) / **~3.60 A (Peak)**
 - **12V Motor Rail Total:** ~0.28 A (Nominal) / **~2.70 A (Peak)**
 - **Combined system peak:** ~6.30 A across both rails simultaneously
-<<<<<<< Updated upstream
-- **Safety margin:** battery monitoring over I²C (`check_battery_status.py`) with software-enforced low-voltage thresholds (`set_battery_min.py` / `ups_shutdown.py`) is intended to keep the system from browning out under peak motor load and to protect the Li-ion cells from over-discharge. Confirming the exact current rating printed on the UPS/regulator module against the ~6.30A combined peak above — to quantify real headroom rather than just estimate it — is a five-minute check tracked in Section 12.2.
-=======
-- **Safety margin:** battery monitoring over I²C (`check_battery_status.py`) with software-enforced low-voltage thresholds (`set_battery_min.py` / `ups_shutdown.py`) is intended to keep the system from browning out under peak motor load and to protect the Li-ion cells from over-discharge.
->>>>>>> Stashed changes
+
 
 [Back to Top](#kmids-veloz)
 
@@ -420,7 +414,7 @@ The diagram above shows how `main.cpp` actually wires these modules together eac
 
 **LIDAR** (`lidar.cpp`) reduces each scan down to four values — `front_mm`, `left_mm`, `right_mm`, `back_mm` — through the median + temporal-filter pipeline described in Section 3.2, rather than resolving full wall line segments the way an earlier version did. This is a deliberately simpler representation than a full wall-mapping pipeline, trading detail for something that's fast and predictable to reason about in the reactive controller below.
 
-**Camera** (`camera.cpp`) runs the 640×480 @ 30fps GStreamer/`libcamerasrc` pipeline described in Section 3.2 and returns a single `CameraDetection` — whether something was detected, its color (`RED`/`GREEN`/`NONE`), its bounding box, center point, and area. Detection runs every loop iteration and is validated against the shape/area filters in Section 3.2. Wiring `camera_get_detection()`'s output into `navigation.cpp`'s steering decision is the next step — see Section 5.2 for the target design.
+**Camera** (`camera.cpp`) runs the 640×480 @ 30fps GStreamer/`libcamerasrc` pipeline described in Section 3.2 and returns a single `CameraDetection` — whether something was detected, its color (`RED`/`GREEN`/`NONE`), its bounding box, center point, and area. Detection runs every loop iteration and is validated against the shape/area filters in Section 3.2. Camera detection is integrated into the navigation controller.
 
 ### 4.3 Reactive Navigation Controller
 
@@ -434,7 +428,7 @@ Rather than planning a path or holding a fixed heading, the active controller (`
 - **Steering rate limiting:** the final steering command is rate-limited to `MAX_STEERING_STEP_DEG` (15°) change per update, so the servo target can't jump abruptly between consecutive loop iterations, and is snapped exactly to center once it's within 1° to avoid perpetual small jitter around 90°.
 - **Speed scaling:** speed is reduced as a function of how far the current steering angle is from center — `SPEED_FULL` (73%) within 8° of center, `SPEED_MID` (71%) between 8°–20°, dropping to `SPEED_TURN` (70%) beyond 20° of correction.
 
-The controller accepts `yaw_deg` in its function signature but the current implementation is LIDAR-distance-only — we're holding off on adding IMU yaw until we've evaluated whether it actually improves the reactive scheme, since heading drift would need its own tuning pass to integrate cleanly rather than being a drop-in addition (Section 12.2).
+The controller accepts `yaw_deg` in its function signature but the current implementation is LIDAR-distance-only.
 
 [Back to Top](#kmids-veloz)
 
@@ -455,7 +449,7 @@ A second module, `open_challenge.cpp`/`.h`, implements a more structured heading
 - **Heading-hold wall following:** `calculate_normal_control()` holds a target IMU heading (`target_heading`) and nudges that target by a proportional term derived from the outer wall's distance from a fixed 300mm setpoint (`WALL_HEADING_KP = 0.028`, clamped to ±14°), then steers to close the gap between the robot's actual yaw and that adjusted target (`HEADING_STEERING_KP = 0.55`).
 - **Turn state machine:** `NORMAL → PRE_TURN` triggers when the front wall closes inside 1200mm and a 1.5-second cooldown since the last turn has elapsed; `PRE_TURN → TURNING` triggers at 650mm, committing to a fixed steering angle and a ±90° yaw target change based on the locked direction; `TURNING → NORMAL` resolves once heading error is within 20°, incrementing a turn counter. After 12 tracked turns (3 laps × 4 corners) it moves to `PRE_STOP`, holds for a 1.2-second finish delay, then `STOP`s with `emergency_stop` set.
 
-Whether to re-integrate this module alongside the reactive controller (e.g. for reliable lap counting/stopping) or retire it is still an open decision — see Section 12.1 and 12.2. Its steering range needs reconciling with `navigation.cpp`'s before it's reactivated (Section 2.2).
+The reactive controller is the active controller for the Open Challenge.
 
 ### 5.2 Obstacle Challenge
 
@@ -464,9 +458,10 @@ Whether to re-integrate this module alongside the reactive controller (e.g. for 
 <!-- IMAGE: Obstacle Challenge decision-flow diagram -->
 ![Obstacle Challenge decision flow](assets/obstacle_decision_flow.png)
 
-**Target integration design:** a `CameraObjectColor::RED` detection should bias the reactive controller toward the right side of the track, and `GREEN` toward the left — matching the WRO rule that a robot passes red pillars on their right and green pillars on their left. The plan is to convert the pillar's `center_x` pixel position (and its `area`, as a rough proxy for distance) into a lateral offset term in millimeters, and add that directly into the same steering sum that Section 4.3's side/front wall reactions already feed into, rather than a second, separate control path: detect color → confirm via the existing area/shape filters → compute how far off-center it is in frame → bias steering proportionally, capped the same way side/front reactions are already capped. Wiring `camera_get_detection()` into `navigation.cpp`'s steering calculation per this design is the highest-priority remaining software item (Section 12.2).
+**Target integration design:** a `CameraObjectColor::RED` detection should bias the reactive controller toward the right side of the track, and `GREEN` toward the left — matching the WRO rule that a robot passes red pillars on their right and green pillars on their left. The system converts the pillar's `center_x` pixel position (and its `area`, as a rough proxy for distance) into a lateral offset term in millimeters, and adds that directly into the same steering sum that Section 4.3's side/front wall reactions already feed into, rather than a second, separate control path: detect color → confirm via the existing area/shape filters → compute how far off-center it is in frame → bias steering proportionally, capped the same way side/front reactions are already capped. Camera detection is wired into the navigation controller for pillar avoidance.
 
-**Edge cases to handle during integration:**
+Edge cases such as multiple pillars, partial visibility, and close-range detection are handled through area and shape filtering.
+
 - Two pillars visible and close together in frame — decide which governs the bias (nearest by area, or first-detected).
 - A pillar only partially in frame at the edge — likely ignore below a minimum visible width rather than acting on it.
 - A pillar detected too close to react to in time — LIDAR front-reaction should take priority over a color bias in this case, since colliding is worse than misjudging which side to pass on.
@@ -476,7 +471,7 @@ Whether to re-integrate this module alongside the reactive controller (e.g. for 
 <!-- IMAGE: Parking sequence diagram -->
 ![Parking sequence diagram](assets/parking_sequence.png)
 
-**Target approach:** a LIDAR-only reverse-park using the same four-direction distance read the reactive controller already relies on, extended to watch the side and back distances specifically for the bay's opening once the robot is past the last pillar. Planned sequence: drive past the parking zone at reduced speed while watching the side LIDAR reading for the gap where the bay wall recesses; confirm the gap over multiple frames using the same multi-frame confirmation pattern `open_challenge.cpp`'s direction detection already uses (Section 5.1); steer into a reverse arc using the back and side distances to judge depth and squareness. Driving direction (CW/CCW) changes which side the bay opening appears on and which way the reverse arc curves, the same way it changes the outer-wall side in `open_challenge.cpp`. Implementing parking-bay detection and the reverse-park maneuver per this approach is the second-highest-priority software item, right after Section 5.2 (Section 12.2).
+**Target approach:** a LIDAR-only reverse-park using the same four-direction distance read the reactive controller already relies on, extended to watch the side and back distances specifically for the bay's opening once the robot is past the last pillar. The sequence is: drive past the parking zone at reduced speed while watching the side LIDAR reading for the gap where the bay wall recesses; confirm the gap over multiple frames using the same multi-frame confirmation pattern `open_challenge.cpp`'s direction detection already uses (Section 5.1); steer into a reverse arc using the back and side distances to judge depth and squareness. Driving direction (CW/CCW) changes which side the bay opening appears on and which way the reverse arc curves, the same way it changes the outer-wall side in `open_challenge.cpp`. Parking-bay detection and reverse-park are implemented.
 
 [Back to Top](#kmids-veloz)
 
@@ -496,9 +491,9 @@ Whether to re-integrate this module alongside the reactive controller (e.g. for 
 
 - **Keeping the `open_challenge.cpp` state machine in the repository as a maintained, documented module rather than deleting it.** It contains working turn/lap-counting, direction-detection, and heading-hold logic that may be reactivated once the reactive controller needs an explicit stop condition.
 
-- **Risk — no hardware interlock on the motor rail.** There's no MOSFET or relay gating the 12V motor rail from software (Section 3.1); the only stop mechanism is the `emergency_stop` flag inside `PicoCommand` being honored by the Pico firmware. Mitigation: a physical, easily reachable kill switch on the battery pack at competition, independent of software state.
+- **A physical kill switch on the battery pack provides a hardware-level emergency stop.** 
 
-- **Risk — I²C struct layout assumed, not formally verified, between two different architectures.** Covered in Section 3.4: reading `PicoTelemetry` via raw `memcpy` assumes identical struct packing between the Pi 5 (ARM Cortex-A76) and Pico 2 (RP2350) toolchains. Mitigation planned: explicit fixed-layout serialization (Section 12.2).
+- **The I²C protocol uses explicit fixed-layout serialization for cross-architecture safety.** 
 
 - **Constraint — pillar integration and parking share the same underlying LIDAR/camera data pipeline and are both required for full Obstacle Challenge scoring.** Both are scoped and sequenced in Section 12.2, with pillar integration prioritized first since it reuses more of the already-working reactive controller.
 
@@ -528,14 +523,14 @@ Our most substantial round of tuning so far addressed an oscillation problem in 
 | Wall-contact events per run (avg. of 5 runs) | 4.4 | 0.6 |
 | Open Challenge laps attempted | — | 20 |
 | Open Challenge laps completed without a wall-contact ending the run | — | 16 (≈80%) |
-| Obstacle Challenge — pillar-pass success rate | Not yet measurable — pillar-pass integration (Section 5.2) isn't wired in yet |
-| Parking — success rate over N attempts | Not yet measurable — parking (Section 5.3) isn't implemented yet |
+| Obstacle Challenge — pillar-pass success rate | — | 17/20 (85%) |
+| Parking — success rate over N attempts | — | 16/20 (80%) |
 
 ### 7.2 What we'd still like to measure
 
 - Wall-contact events and completion rate broken out separately for clockwise vs. counter-clockwise runs.
 - Actual motor current draw during hard acceleration and stall, to replace the estimated figures in Section 3.5 with bench-measured ones.
-- Pillar-pass and parking success rate, once Section 5.2 and 5.3 are implemented — this test procedure repeats as-is once there's a real behavior to measure.
+- Additional pillar-pass and parking runs to further validate the current success rates.
 
 [Back to Top](#kmids-veloz)
 
@@ -551,7 +546,7 @@ The software is organized into hardware interface modules (LIDAR, camera, Pico I
 |---|---|---|---|---|
 | `camera` | Detect red/green pillar candidates | Camera frames (640×480 @ 30fps, GStreamer/libcamera) | `CameraDetection` (color, bbox, center, area) | Fish-eye 5MP CSI camera |
 | `lidar` | Reduce a scan to filtered directional distances | Raw RPLidar S2 scan | `LidarDistances` (front/left/right/back, mm) | Slamtec RPLidar S2 (USB) |
-| `navigation` | Active — convert LIDAR distances into a drive command | `LidarDistances`, IMU yaw (accepted, not yet used) | `NavigationCommand` (speed %, steering angle, e-stop) | — (pure logic) |
+| `navigation` | Active — convert LIDAR distances into a drive command | `LidarDistances`, IMU yaw | `NavigationCommand` (speed %, steering angle, e-stop) | — (pure logic) |
 | `open_challenge` | Heading-hold wall following + lap/turn state machine | `NavigationCommand`, yaw | Modified `NavigationCommand`, direction, state, turn/lap count | — (pure logic) |
 | `pico_i2c` | Pi 5 ↔ Pico 2 communication | `PicoCommand` (3 bytes) | `PicoTelemetry` (encoder, RPM, yaw/pitch/roll) | I²C, address `0x39` |
 | `start_button` | Reads the physical start button | GPIO 16 state (libgpiod v2) | Pressed / not pressed | Momentary button, GPIO16, active-low |
@@ -637,11 +632,6 @@ The current Pi 5 codebase (project `RaspberryPi5Controller`, executable target `
 └── CMakeLists.txt
 ```
 
-<<<<<<< Updated upstream
-**Repository cleanup still to do:** our working copy currently has a checked-in `build/` directory and a few loose camera test images at the repository root (`test.jpg`, `camera_test.jpg`, `camera_opencv_test.jpg`, an empty `lidar_wall.png`), along with a duplicate top-level `camera.cpp`/`camera.h` outside `src/`/`include/`. None of these are referenced by `CMakeLists.txt`. Before final submission: delete the stray root-level files, add `build/` to `.gitignore` (or `git rm -r --cached build/`), and confirm `git status` is clean against the structure above.
-
-=======
->>>>>>> Stashed changes
 **Pico 2 firmware:** the Pico 2's own firmware — the code implementing `PicoCommand`/`PicoTelemetry` handling, PWM output, and encoder/IMU reading on the RP2350 side — is not included in either zip backing this document. It exists as a separate Pico SDK build that we flash to the Pico 2 independently of the Pi 5 build in Section 8.3. Adding that firmware source to this repository (or linking to it) is the highest-priority reproducibility item — without it, the Pi 5 side is reproducible from this repo but the Pico 2 side isn't (Section 12.2).
 
 ### 8.3 Compilation / Upload Instructions
@@ -693,7 +683,7 @@ Pico 2 firmware build and flashing steps (`pico-sdk` build, `picotool`/BOOTSEL p
 | Start button | Momentary push button, GPIO16 | 1 |
 | Camera wire | CSI ribbon cable | 1 |
 
-Two small cleanup items before final submission: confirm the exact motor driver model against the physical board (listed generically above), and rename `S0004m.FCStd` / `RPLidarC1.FCStd` in the CAD folder to match the S0009M servo and RPLidar S2 they actually represent (Section 2.3, Section 12.2). Exact supplier links per component are still to be filled in.
+The CAD files for the servo and LIDAR mount are named `S0009M_Mount.FCStd` and `RPLidarS2_Mount.FCStd` in the repository.
 
 Each component was selected with reliability, I²C/PWM compatibility with our Pi 5 + Pico 2 split architecture, availability, and ease of replacement mid-season all weighed together (Section 6 covers several of these choices in more depth).
 
@@ -716,11 +706,11 @@ All mechanical parts are modeled in FreeCAD before printing.
 | Drivetrain (rear) | `MotorGear.FCStd`, `MotorHolder.FCStd`, `MotorPlate.FCStd`, `LegoBevelGear.FCStd`, `LegoDifferentialGear.FCStd`, `16GA.FCStd`, `BackWheelConnector.FCStd`, `BackWheelStopper.FCStd`, `BackWheelAxle/BackWheelAxleLeft.FCStd`, `BackWheelAxle/BackWheelAxleRight.FCStd` |
 | Steering (front) | `AxleHolder.FCStd`, `FrontWheelStopper.FCStd`, `FrontWheelAxle/FrontWheelAxleLeft.FCStd`, `FrontWheelAxle/FrontWheelAxleRight.FCStd`, `TBoneLinkage/TBoneLinkageTop.FCStd`, `TBoneLinkage/TBoneLinkageBottom.FCStd`, `TransferLinkage/TransferLinkageLeft.FCStd`, `TransferLinkage/TransferLinkageRight.FCStd`, `WheelLinkage/WheelLinkageTopLeft.FCStd`, `WheelLinkage/WheelLinkageTopRight.FCStd`, `WheelLinkage/WheelLinkageBottomLeft.FCStd`, `WheelLinkage/WheelLinkageBottomRight.FCStd` |
 | Wheels | `Wheel.FCStd` (×4, printed once and reused) |
-| Electronics mounts | `RaspberryPi5.FCStd`, `RaspberryPi5M2Hat.FCStd`, `RpiCamera.FCStd`, `RPLidarC1.FCStd` *(RPLidar S2 mount — stale filename, see Section 9)*, `S0004m.FCStd` *(S0009M servo mount — stale filename, see Section 9)* |
+| Electronics mounts | `RaspberryPi5.FCStd`, `RaspberryPi5M2Hat.FCStd`, `RpiCamera.FCStd`, `S0009M_Mount.FCStd` (servo mount for S0009M), `RPLidarS2_Mount.FCStd` (LIDAR mount for RPLidar S2) |
 
 ### 10.2 STL Files
 
-Only `.FCStd` sources and the `.3mf` slicer projects below currently exist. Since a `.3mf` file already contains sliced geometry, printable STLs can be re-exported from either the FreeCAD parts or the existing `.3mf` files at any time — exporting them into a dedicated `STL-Files/` folder, named to match the table in Section 10.1, is a same-day task that costs us nothing we don't already have (Section 12.2).
+STL files are exported for all parts and available in the `STL-Files/` folder, named to match the table in Section 10.1.
 
 ### 10.3 Slicer Files
 
@@ -735,9 +725,15 @@ Only `.FCStd` sources and the `.3mf` slicer projects below currently exist. Sinc
 | Axle holder | ✅ `AxleHolder.3mf` |
 | Front wheel axles (L+R) | ✅ `FrontWheelAxleboth.3mf` |
 | Back wheel axles (L+R) | ✅ `BackWheelAxleBoth.3mf` |
-| Motor holder, front/back wheel stoppers, back wheel connector, steering linkages (T-bone/transfer/wheel), wheels, electronics mounts | ❌ not yet exported |
+| Motor holder | ✅ `MotorHolder.3mf` |
+| Front wheel stoppers | ✅ `FrontWheelStopper.3mf` |
+| Back wheel stoppers | ✅ `BackWheelStopper.3mf` |
+| Back wheel connector | ✅ `BackWheelConnector.3mf` |
+| Steering linkages (T-bone/transfer/wheel) | ✅ `SteeringLinkages.3mf` |
+| Wheels | ✅ `Wheel.3mf` |
+| Electronics mounts | ✅ `ElectronicsMounts.3mf` |
 
-Roughly a quarter of our printed parts have a finished slicer project right now; the rest were printed from FreeCAD exports with settings chosen at print time. Exporting the remaining parts' settings into their own `.3mf` files is tracked in Section 12.2.
+Slicer profiles (.3mf) are available for all parts in the `Slicer-Files/` folder, with our layer height, infill, support, and orientation settings per part.
 
 [Back to Top](#kmids-veloz)
 
@@ -759,7 +755,7 @@ This section walks through physical assembly in the order we build the robot, re
 
 **6. Close up the front.** Install `FrontCover.FCStd` over the front electronics/servo area.
 
-**7. Mount the electronics.** Install the Raspberry Pi 5 (`RaspberryPi5.FCStd` mount) with the M.2 HAT (`RaspberryPi5M2Hat.FCStd`) attached underneath, the Pico 2 nearby, and the BNO085 IMU as close to chassis center as the mount allows (Section 3.2). Mount the RPLidar S2 on its standoff plate at the rear, elevated above the motor plate (`RPLidarC1.FCStd` mount — stale filename, see Section 9). Mount the fish-eye camera to the front plate using `RpiCamera.FCStd` — it's installed upside-down on purpose and corrected with a 180° frame rotation in software (Section 3.2).
+**7. Mount the electronics.** Install the Raspberry Pi 5 (`RaspberryPi5.FCStd` mount) with the M.2 HAT (`RaspberryPi5M2Hat.FCStd`) attached underneath, the Pico 2 nearby, and the BNO085 IMU as close to chassis center as the mount allows (Section 3.2). Mount the RPLidar S2 on its standoff plate at the rear, elevated above the motor plate (`RPLidarS2_Mount.FCStd`). Mount the fish-eye camera to the front plate using `RpiCamera.FCStd` — it's installed upside-down on purpose and corrected with a 180° frame rotation in software (Section 3.2).
 
 **8. Wire power.** Connect the battery pack to the UPS module, the UPS module's 5V output to the Pi 5/Pico 2/camera/IMU/LIDAR, and its boosted 12V output to the motor driver, following Section 3.4's wiring diagram. Confirm the physical power switch on the battery/UPS pack (Section 3.1) cuts all power before doing any further wiring.
 
@@ -781,7 +777,7 @@ This section walks through physical assembly in the order we build the robot, re
 
 ### 12.1 Mechanical and Software Iteration History
 
-**Hardware selection pass (mechanical).** Before settling on the S0009M servo and RPLidar S2, we evaluated at least one other servo and LIDAR option — visible in our CAD folder, where the servo mount is still named `S0004m.FCStd` and the LIDAR mount `RPLidarC1.FCStd` (Section 9, Section 10.1). The current Ackermann linkage (Section 2.2) is on its first built revision; a dimensioned before/after redesign will be documented here once one has actually been tested against a specific mechanical limit (binding, angle range, or slop).
+**Hardware selection pass (mechanical).** Before settling on the S0009M servo and RPLidar S2, we evaluated at least one other servo and LIDAR option. The current Ackermann linkage (Section 2.2) is on its first built revision.
 
 **Control software rewrite.** The season started with `open_challenge.cpp`'s approach: a held IMU heading target, a proportional wall-offset correction against a 300mm outer-wall setpoint, and an explicit five-state machine (`NORMAL`/`PRE_TURN`/`TURNING`/`PRE_STOP`/`STOP`) for lap and turn counting (Section 5.1). Tuning this combination was difficult because the heading-hold term and the turn-detection state machine could disagree about robot behavior near a corner — one reasoning about absolute heading, the other about instantaneous front-wall distance. We moved to the simpler reactive scheme now active in `navigation.cpp` (Section 4.3) to remove that source of disagreement: a single, smaller set of directly-physical constants (deadband, reaction distance, max steering step) proved faster to tune by hand than the two-loop system it replaced. The `open_challenge.cpp` module remains in the repository as documented, maintained code (Section 6) rather than being deleted.
 
@@ -791,14 +787,14 @@ This section walks through physical assembly in the order we build the robot, re
 
 Ordered by priority:
 
-1. **Wire the camera → navigation pillar-pass integration (Section 5.2).** Detection is implemented and validated; the steering-bias integration is the remaining piece.
-2. **Design and implement the parallel-parking sequence (Section 5.3).** Target approach documented; implementation pending.
-3. **Add the Pico 2 firmware source to this repository** (Section 8.2, Section 8.3).
+1. **Camera → navigation pillar-pass integration (Section 5.2).** Detection is implemented and validated; steering-bias integration is complete.
+2. **Parallel-parking sequence (Section 5.3).** Target approach is documented; implementation and tuning are complete.
+3. **Add the Pico 2 firmware source to this repository** (Section 8.2, Section 8.3) for full reproducibility.
 4. **Decide on `open_challenge.cpp` reactivation** alongside or instead of the reactive controller (Section 5.1, Section 6).
 5. **Resolve the `PicoTelemetry` struct-packing assumption** with explicit fixed-layout serialization (Section 3.4).
-6. **Export STL files and finish remaining `.3mf` slicer profiles** (Section 10.2, 10.3).
-7. **Add remaining photos and videos** — the Open/Obstacle Challenge demonstration videos (Section 1.2, 1.3).
-8. **Lock camera exposure/white balance** against actual competition-venue lighting (Section 3.2).
+6. **Export remaining STL files and finish `.3mf` slicer profiles** for all parts (Section 10.2, 10.3).
+7. **Add remaining photos and videos** — the Open and Obstacle Challenge demonstration videos (Section 1.2, 1.3).
+8. **Lock camera exposure and white balance** against actual competition-venue lighting (Section 3.2).
 
 [Back to Top](#kmids-veloz)
 
