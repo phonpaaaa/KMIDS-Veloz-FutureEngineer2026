@@ -98,8 +98,9 @@ The six required orientation views, four additional angled shots, and a photo of
 |---|---|---|---|
 | ![Left side](assets/left_side_view.png) | ![Left rear](assets/left_back_side_view.png) | ![Right side](assets/right_side_view.png) | ![Right rear](assets/right_back_side_view.png) |
 
-Internal Electronics:
-![Internal electronics](assets/internals.png)
+**Internal Electronics:**
+
+<img src="assets/internals.png" alt="Internal electronics" width="50%">
 
 Section 3.2 also includes a labeled top-down sensor placement diagram (`assets/sensor_placement.png`) showing LIDAR, camera, and IMU positions schematically.
 
@@ -127,7 +128,7 @@ This section covers how the robot moves: what drives the rear wheels, how the fr
 The robot uses a single **20GP-180 DC gearmotor with an integrated quadrature encoder** to drive the rear wheels. Power is transferred from the motor through a printed gear system (`MotorGear.FCStd`), while encoder feedback is wired back to the Raspberry Pi Pico 2 so wheel rotation can be measured directly instead of assumed.
 
 <!-- IMAGE: 20GP-180 motor photo -->
-![20GP-180 DC gearmotor](assets/20gp180_motor.png)
+<img src="assets/20gp180_motor.png" alt="20GP-180 DC gearmotor" width="50%">
 
 #### Motor: 20GP-180 DC Gearmotor
 
@@ -157,17 +158,21 @@ The 20GP-180 family is sold across several gear ratios with no-load speed and st
 **Motor gear:** power from the motor is transferred through a printed motor gear (`MotorGear.FCStd`).
 
 <!-- IMAGE: Motor gear -->
-![Motor gear](assets/motor_gear.png)
+<img src="assets/motor_gear.png" alt="Motor gear" width="50%">
 
 The gear is a separate printed component rather than being integrated directly into the chassis, which makes the drivetrain easier to modify if the motor, gear ratio, or wheel configuration changes during development. Our CAD parts list also includes `LegoBevelGear.FCStd` and `LegoDifferentialGear.FCStd` — we use off-the-shelf LEGO Technic gear elements paired with a `16GA.FCStd` axle rod inside the rear axle assembly rather than designing custom bevel/differential gearing from scratch, which saved print-and-fit iteration on a part that's easy to get wrong and cheap to buy correct.
 
 **Motor mounting:** the motor is mounted using a printed motor holder and a detachable motor plate.
 
 <!-- IMAGE: Motor holder -->
-![Motor holder](assets/motor_holder.png)
+<img src="assets/motor_holder.png" alt="Motor holder" width="50%">
+
+
+**Motor plate:** the detachable mounting plate that secures the motor holder to the chassis, allowing the motor to be removed or replaced without reprinting the entire chassis.
+
 
 <!-- IMAGE: Motor plate -->
-![Motor plate] (assets/motor_plate.png)
+<img src="assets/motor_plate.png" alt="Motor plate" width="50%">
 
 Relevant CAD files: `MotorHolder.FCStd`, `MotorPlate.FCStd`, `MotorGear.FCStd`.
 
@@ -222,7 +227,7 @@ The diagram above is a general technical reference for the Ackermann geometry pr
 #### Servo: Surpass Hobby S0009M (9g digital)
 
 <!-- IMAGE: Servo photo -->
-![Surpass Hobby S0009M servo](assets/servo.png)
+<img src="assets/servo.png" alt="Surpass Hobby S0009M servo" width="50%">
 
 **Specifications**
 
@@ -239,7 +244,7 @@ The diagram above is a general technical reference for the Ackermann geometry pr
 #### Linkages
 
 <!-- IMAGE: T-bone and transfer linkage parts -->
-![Steering linkage parts](assets/steering_linkages.png)
+<img src="assets/steering_linkages.png" alt="Steering linkage parts" width="60%">
 
 The T-bone linkage connects the servo horn to the two transfer linkages, which in turn connect to the wheel linkages at each front wheel. Splitting the linkage into separate printed parts (rather than one solid arm) lets us adjust pivot points and re-print a single part if a specific linkage geometry needs revising, instead of reprinting the whole steering assembly.
 
@@ -299,7 +304,7 @@ To protect the battery from being damaged by over-discharge, a `set_battery_min.
 ### 3.2 Sensor and Camera
 
 <!-- IMAGE: Sensor placement photo/diagram — top-down or side view showing lidar/camera/IMU mounting points -->
-![Sensor placement](assets/sensor_placement.png)
+<img src="assets/sensor_placement.png" alt="Sensor placement" width="60%">
 
 Each sensor's mounting position was chosen for a specific reason tied to what it needs to see or measure, rather than wherever happened to have free space on the chassis.
 
@@ -317,7 +322,7 @@ Each sensor's mounting position was chosen for a specific reason tied to what it
 **LIDAR filtering pipeline:** raw scan points outside 40mm–9000mm are discarded before any further processing (`lidar.cpp`). Valid points are grouped into four angular sectors — front (±6°), left/right (±8° each), back (±8°). Each sector's distance is the **median** of all points that landed in it, and that raw median is then passed through a temporal filter: a normal frame-to-frame change is smoothed with an exponential moving average (`FILTER_ALPHA = 0.40`), but a jump larger than 1200mm is only accepted once it's been seen for 3 consecutive frames (`JUMP_CONFIRM_FRAMES`) — this stops a single bad LIDAR return from producing a one-frame phantom wall or opening. The navigation controller (Section 4.3) then applies its own, separate validity window (60mm–6000mm) on top of this already-filtered value. For debugging, `lidar_update()` also renders a top-down occupancy image (800×800px, 0.08 px/mm) with the raw point cloud, Hough-transform-detected wall line segments, and range rings, saved to disk every scan — useful for bench tuning; disabling that continuous write for the competition build is on our list (Section 12.2).
 
 <!-- IMAGE: LIDAR angular sector diagram -->
-![LIDAR angular sectors](assets/lidar_sectors.png)
+<img src="assets/lidar_sectors.png" alt="LIDAR angular sectors" width="70%">
 
 The diagram above shows the four angular sectors (front ±6°, left/right ±8°, back ±8°) the raw point cloud is grouped into before the median + EMA filtering described above is applied — narrower sectors than an earlier ±15° version, specifically to keep an adjacent wall or opening from bleeding into the wrong sector's reading.
 
@@ -415,7 +420,7 @@ The diagram above shows how `main.cpp` actually wires these modules together eac
 
 ### 4.3 Reactive Navigation Controller
 
-![Reactive navigation control loop](assets/navigation_control_loop.png)
+<img src="assets/navigation_control_loop.png" alt="Reactive navigation control loop" width="70%">
 
 Rather than planning a path or holding a fixed heading, the active controller (`navigation.cpp`) is a proportional reactive scheme: every ~10ms it looks at the four current LIDAR distances and reacts directly, tuned by hand against a set of named constants.
 
