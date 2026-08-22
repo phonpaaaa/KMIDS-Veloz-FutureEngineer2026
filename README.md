@@ -794,15 +794,11 @@ Ordered by priority:
 1. **Wire the camera → navigation pillar-pass integration (Section 5.2).** Detection is implemented and validated; the steering-bias integration is the remaining piece.
 2. **Design and implement the parallel-parking sequence (Section 5.3).** Target approach documented; implementation pending.
 3. **Add the Pico 2 firmware source to this repository** (Section 8.2, Section 8.3).
-4. **Repository cleanup** — remove the checked-in `build/` directory and stray camera test images, add `build/` to `.gitignore` (Section 8.2).
-5. **Bench-measure motor no-load RPM/stall torque** and confirm the UPS/regulator current rating against the ~6.30A combined peak estimate (Section 2.1, Section 3.5).
-6. **Decide on `open_challenge.cpp` reactivation** alongside or instead of the reactive controller (Section 5.1, Section 6).
-7. **Resolve the `PicoTelemetry` struct-packing assumption** with explicit fixed-layout serialization (Section 3.4).
-8. **Export STL files and finish remaining `.3mf` slicer profiles** (Section 10.2, 10.3).
-9. **Rename the stale CAD files** (`S0004m.FCStd` → match S0009M, `RPLidarC1.FCStd` → match RPLidar S2) (Section 9, Section 2.3).
-10. **Add remaining photos and videos** — robot overview, internals, individual drivetrain/steering component shots, and the Open/Obstacle Challenge demonstration videos (Section 1.2, 1.3).
-11. **Lock camera exposure/white balance** against actual competition-venue lighting (Section 3.2).
-12. **Log Open Challenge test numbers on an ongoing basis** beyond the 5-session sample in Section 7.
+4. **Decide on `open_challenge.cpp` reactivation** alongside or instead of the reactive controller (Section 5.1, Section 6).
+5. **Resolve the `PicoTelemetry` struct-packing assumption** with explicit fixed-layout serialization (Section 3.4).
+6. **Export STL files and finish remaining `.3mf` slicer profiles** (Section 10.2, 10.3).
+7. **Add remaining photos and videos** — the Open/Obstacle Challenge demonstration videos (Section 1.2, 1.3).
+8. **Lock camera exposure/white balance** against actual competition-venue lighting (Section 3.2).
 
 [Back to Top](#kmids-veloz)
 
