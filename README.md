@@ -385,7 +385,11 @@ The system uses a dual-voltage topology: a main 5V logic rail supplied via the I
 - **5V Logic Rail Total:** ~1.03 A (Nominal) / **~3.60 A (Peak)**
 - **12V Motor Rail Total:** ~0.28 A (Nominal) / **~2.70 A (Peak)**
 - **Combined system peak:** ~6.30 A across both rails simultaneously
+<<<<<<< Updated upstream
 - **Safety margin:** battery monitoring over I²C (`check_battery_status.py`) with software-enforced low-voltage thresholds (`set_battery_min.py` / `ups_shutdown.py`) is intended to keep the system from browning out under peak motor load and to protect the Li-ion cells from over-discharge. Confirming the exact current rating printed on the UPS/regulator module against the ~6.30A combined peak above — to quantify real headroom rather than just estimate it — is a five-minute check tracked in Section 12.2.
+=======
+- **Safety margin:** battery monitoring over I²C (`check_battery_status.py`) with software-enforced low-voltage thresholds (`set_battery_min.py` / `ups_shutdown.py`) is intended to keep the system from browning out under peak motor load and to protect the Li-ion cells from over-discharge.
+>>>>>>> Stashed changes
 
 [Back to Top](#kmids-veloz)
 
@@ -633,8 +637,11 @@ The current Pi 5 codebase (project `RaspberryPi5Controller`, executable target `
 └── CMakeLists.txt
 ```
 
+<<<<<<< Updated upstream
 **Repository cleanup still to do:** our working copy currently has a checked-in `build/` directory and a few loose camera test images at the repository root (`test.jpg`, `camera_test.jpg`, `camera_opencv_test.jpg`, an empty `lidar_wall.png`), along with a duplicate top-level `camera.cpp`/`camera.h` outside `src/`/`include/`. None of these are referenced by `CMakeLists.txt`. Before final submission: delete the stray root-level files, add `build/` to `.gitignore` (or `git rm -r --cached build/`), and confirm `git status` is clean against the structure above.
 
+=======
+>>>>>>> Stashed changes
 **Pico 2 firmware:** the Pico 2's own firmware — the code implementing `PicoCommand`/`PicoTelemetry` handling, PWM output, and encoder/IMU reading on the RP2350 side — is not included in either zip backing this document. It exists as a separate Pico SDK build that we flash to the Pico 2 independently of the Pi 5 build in Section 8.3. Adding that firmware source to this repository (or linking to it) is the highest-priority reproducibility item — without it, the Pi 5 side is reproducible from this repo but the Pico 2 side isn't (Section 12.2).
 
 ### 8.3 Compilation / Upload Instructions
