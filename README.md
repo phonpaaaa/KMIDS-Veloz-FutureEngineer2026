@@ -7,7 +7,7 @@
 > Designing, building, and continuously improving an autonomous vehicle for the World Robot Olympiad Future Engineers challenge.
 
 <!-- IMAGE: Robot overview photo (final robot, 3/4 angle, clean background) -->
-![Robot overview](assets/robot_overview.jpg)
+![Robot overview](assets/robot_overview.png)
 
 </div>
 
@@ -98,7 +98,7 @@ The six required orientation views, four additional angled shots, and a photo of
 |---|---|---|---|
 | ![Left side](assets/left_side_view.png) | ![Left rear](assets/left_back_side_view.png) | ![Right side](assets/right_side_view.png) | ![Right rear](assets/right_back_side_view.png) |
 
-<!-- IMAGE: Internal electronics — open chassis or component stack, shows sensor/board placement -->
+Internal Electronics:
 ![Internal electronics](assets/internals.png)
 
 Section 3.2 also includes a labeled top-down sensor placement diagram (`assets/sensor_placement.png`) showing LIDAR, camera, and IMU positions schematically.
@@ -127,7 +127,7 @@ This section covers how the robot moves: what drives the rear wheels, how the fr
 The robot uses a single **20GP-180 DC gearmotor with an integrated quadrature encoder** to drive the rear wheels. Power is transferred from the motor through a printed gear system (`MotorGear.FCStd`), while encoder feedback is wired back to the Raspberry Pi Pico 2 so wheel rotation can be measured directly instead of assumed.
 
 <!-- IMAGE: 20GP-180 motor photo -->
-![20GP-180 DC gearmotor — TODO: replace with real photo](assets/20gp180_motor.jpg)
+![20GP-180 DC gearmotor](assets/20gp180_motor.png)
 
 #### Motor: 20GP-180 DC Gearmotor
 
@@ -157,17 +157,17 @@ The 20GP-180 family is sold across several gear ratios with no-load speed and st
 **Motor gear:** power from the motor is transferred through a printed motor gear (`MotorGear.FCStd`).
 
 <!-- IMAGE: Motor gear -->
-![Motor gear — TODO: replace with real photo](assets/motor_gear.jpg)
+![Motor gear](assets/motor_gear.png)
 
 The gear is a separate printed component rather than being integrated directly into the chassis, which makes the drivetrain easier to modify if the motor, gear ratio, or wheel configuration changes during development. Our CAD parts list also includes `LegoBevelGear.FCStd` and `LegoDifferentialGear.FCStd` — we use off-the-shelf LEGO Technic gear elements paired with a `16GA.FCStd` axle rod inside the rear axle assembly rather than designing custom bevel/differential gearing from scratch, which saved print-and-fit iteration on a part that's easy to get wrong and cheap to buy correct.
 
 **Motor mounting:** the motor is mounted using a printed motor holder and a detachable motor plate.
 
 <!-- IMAGE: Motor holder -->
-![Motor holder — TODO: replace with real photo](assets/motor_holder.jpg)
+![Motor holder](assets/motor_holder.png)
 
 <!-- IMAGE: Motor plate -->
-![Motor plate — TODO: replace with real photo](assets/motor_plate.jpg)
+![Motor plate] (assets/motor_plate.png)
 
 Relevant CAD files: `MotorHolder.FCStd`, `MotorPlate.FCStd`, `MotorGear.FCStd`.
 
@@ -222,7 +222,7 @@ The diagram above is a general technical reference for the Ackermann geometry pr
 #### Servo: Surpass Hobby S0009M (9g digital)
 
 <!-- IMAGE: Servo photo -->
-![Surpass Hobby S0009M servo — TODO: replace with real photo](assets/servo.jpg)
+![Surpass Hobby S0009M servo](assets/servo.png)
 
 **Specifications**
 
@@ -239,7 +239,7 @@ The diagram above is a general technical reference for the Ackermann geometry pr
 #### Linkages
 
 <!-- IMAGE: T-bone and transfer linkage parts -->
-![Steering linkage parts — TODO: replace with real photo](assets/steering_linkages.jpg)
+![Steering linkage parts](assets/steering_linkages.png)
 
 The T-bone linkage connects the servo horn to the two transfer linkages, which in turn connect to the wheel linkages at each front wheel. Splitting the linkage into separate printed parts (rather than one solid arm) lets us adjust pivot points and re-print a single part if a specific linkage geometry needs revising, instead of reprinting the whole steering assembly.
 
@@ -250,7 +250,7 @@ The physical steering range is constrained in firmware, not just by the linkage 
 #### Mounting
 
 <!-- IMAGE: Servo mounting on front plate -->
-![Servo mounting — TODO: replace with real photo](assets/servo_mounting.jpg)
+![Servo mounting](assets/servo_mounting.png)
 
 The servo is screwed directly into a platform plate at the front of the chassis, connected to the steering mechanism described above.
 
