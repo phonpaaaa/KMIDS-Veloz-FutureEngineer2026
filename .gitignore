@@ -1,0 +1,22 @@
+# Build directories
+build/
+*/build/
+cmake-build-*/
+
+# CMake generated files
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+compile_commands.json
+
+# Compiled binaries
+*.o
+*.a
+*.so
+*.dylib
+
+# macOS
+.DS_Store
+
+# VS Code local config
+.vscode/
