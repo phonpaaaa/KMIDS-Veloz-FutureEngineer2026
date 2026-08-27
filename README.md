@@ -298,7 +298,7 @@ The finished chassis body measures **244mm (long axis) × 135mm (short axis) × 
 | Wheel diameter | 54.7 mm |
 
 <!-- IMAGE: Annotated CAD assembly (full robot, labeled: chassis, steering, motor, electronics stack) -->
-![Annotated CAD assembly — TODO: add once assembly is finalized](assets/cad_assembly.png)
+![Annotated CAD assembly](assets/cad_assembly.png)
 
 The chassis is built up from a base plate through a sequence of pads and pockets that create mounting cutouts, wire-routing gaps, and standoff holes, with fillets applied to the final edges. This approach does two things at once: it keeps the whole robot well within the WRO 300×200×300mm size limit with margin to spare, and it leaves room to reposition the electronics stack later without having to redesign the body from scratch.
 
