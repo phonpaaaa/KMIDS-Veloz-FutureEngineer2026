@@ -22,7 +22,7 @@
 <!-- IMAGE: Team photo -->
 ![Team photo](assets/team.png)
 
-KMIDS Veloz is a team of students exploring autonomous driving through mechanical design, embedded systems, computer vision, and control theory. Over the course of the WRO Future Engineers 2026 season our work has covered hardware selection, CAD design, electronics integration, and the software architecture running on our two onboard boards, along with the testing and iteration that shaped each of those decisions. This document collects that process in one place: what we built, why we built it that way, and the status of each subsystem.
+**KMIDS Veloz** is a team of students exploring autonomous driving through mechanical design, embedded systems, computer vision, and control theory. Over the course of the WRO Future Engineers 2026 season, our work has covered hardware selection, CAD design, electronics integration, and the software architecture running on our two onboard boards (Raspberry Pi 5, Raspberry Pico), along with the testing and iteration that shaped each of those decisions. This document outlines our entire process from start to finish, including engineering decisions, hurdles, and the eventual solutions we found after rigorous trials.
 
 ---
 
