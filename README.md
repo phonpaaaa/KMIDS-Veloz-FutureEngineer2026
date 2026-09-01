@@ -822,7 +822,7 @@ Remove supports and test-fit mating parts (especially linkage pivots) before mov
 
 Connect `FrontWheelAxle`, `WheelLinkageTop`, `WheelLinkageBottom`, and `TransferLinkage` to assemble the wheel linkage mechanism. The left side is shown below; repeat the same process for the right side.
 
-![Front Assembly Step 1](assets/Front Assembly Step 1.png)
+![Front Assembly Step 1](assets/Front%20Assembly%20Step%201.png)
 
 Then you should be left with this:
 
