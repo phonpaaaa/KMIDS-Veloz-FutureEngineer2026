@@ -798,11 +798,45 @@ Slicer profiles (.3mf) are available for all parts in the `Slicer-Files/` folder
 
 ## 11. Building Instructions
 
-This section walks through physical assembly in the order we build the robot, referencing the CAD parts from Section 10. It assumes all parts are already printed per Section 10.3 and electronics are on hand per Section 9.
+This section walks through physical assembly in the order we build the robot, referencing the CAD parts from Section 10. It assumes all electronics are on hand per Section 9 and that 3D printing materials are available..
 
-**1. Print and prep parts.** Print every part listed in Section 10.1 at the settings captured in the `.3mf` files where available (Section 10.3); for parts without a saved slicer profile, use 0.2mm layer height, ≥20% infill, and supports on any steep overhang. Remove supports and test-fit mating parts (linkage pivots especially) before moving on — a linkage that binds is much easier to fix by re-printing one part now than after the whole steering assembly is together.
+### 1. Print and prep parts.
 
-**2. Assemble the rear drivetrain.** Mount the 20GP-180 motor into `MotorHolder.FCStd`, and attach `MotorGear.FCStd` to the motor's output shaft. Build the rear axle using `BackWheelAxleLeft/Right.FCStd`, the `16GA.FCStd` steel rod, `BackWheelConnector.FCStd`, and the LEGO `LegoBevelGear.FCStd`/`LegoDifferentialGear.FCStd` pair, securing both ends with `BackWheelStopper.FCStd`. Press the two rear `Wheel.FCStd` wheels onto the axle ends.
+Print every part listed in Section 10.1 using the slicer settings provided in the `.3mf` files in Section 10.3 where available. For parts without a saved slicer profile, use the settings specified below.
+
+| Part Group | Layer Height | Infill Density | Infill Pattern | Support Type | Build Plate Adhesion Type |
+|---|---|---|---|---|---|
+| Chassis | 0.3 | 25% | Guroid | Tree | None |
+| Motor Gear | 0.2 | 20% | Lines | None | Brim |
+| Axle Holder | 0.2 | 20% | Cubic | None | Brim |
+| Linkage & Back Wheel Components | 0.2 | 20% | Cubic | Normal | Brim |
+| Front Cover | 0.2 | 20% | Cubic | Normal | None |
+| LIDAR Plate & Motor Plate | 0.2 | 20% | Cubic | Tree | None |
+
+Remove supports and test-fit mating parts (especially linkage pivots) before moving on. A linkage that binds is much easier to fix by re-printing one part now than after the whole steering assembly is together.
+
+
+### 2. Assemble the front steering mechanism.
+
+#### 2.1. Assemble left and right wheel linkages.
+
+Connect `FrontWheelAxle`, `WheelLinkageTop`, `WheelLinkageBottom`, and `TransferLinkage` to assemble the wheel linkage mechanism. The left side is shown below; repeat the same process for the right side.
+
+![Front Assembly Step 1](assets/Front Assembly Step 1.png)
+
+Then you should be left with this:
+
+![Front Assembly Step 1 Complete](assets/Front Assembly Step 1 Complete.png)
+
+#### 2.2. Connect left and right steering mechanisms.
+
+Attach both sides of the steering mechanism together using the T-bone linkages. Secure `TBoneLinkageTop` and `TBoneLinkageBottom` together with glue.
+
+![Front Assembly Step 2](assets/Front Assembly Step 2.png)
+
+Then you should be left with this:
+
+![Front Assembly Step 2 Complete](assets/Front Assembly Step 2 Complete.png)
 
 **3. Mount the motor to the chassis.** Attach `MotorHolder.FCStd` (with motor installed) to `MotorPlate.FCStd`, then screw the motor plate into the rear of `Chassis.FCStd` as a detachable connection (Section 2.1). Mesh `MotorGear.FCStd` with the rear axle gearing and confirm the rear wheels spin freely by hand before continuing.
 
