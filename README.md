@@ -960,7 +960,7 @@ With wheels off the ground, power on, and confirm: the start button is read corr
 
 ### 10. First driving test.
 
-Set the robot down on an open mat, start the program, and confirm the reactive controller (Section 4.3) holds a roughly straight line and reacts sensibly as a wall is brought closer on one side — this is the same manual bench test that led to the tuning work in Section 7.
+Set the robot down on an open mat, start the program, and confirm the reactive controller (Section 4.3) holds a roughly straight line and reacts sensibly as a wall is brought closer on one side. This is the same manual bench test that led to the tuning work in Section 7.
 
 [Back to Top](#kmids-veloz)
 
