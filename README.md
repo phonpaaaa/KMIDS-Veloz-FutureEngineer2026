@@ -838,6 +838,48 @@ Then you should be left with this:
 
 ![Front Assembly Step 2 Complete](assets/Front Assembly Step 2 Complete.png)
 
+#### 2.3. Mount the steering mechanism and front cover.
+
+Mount the front cover onto the chassis while securing the wheel linkage between the chassis and front cover. Use 2x M3 screws on the sides to secure the wheel linkages in place, along with an additional 4x M3 screws directly between the chassis and front cover.
+
+![Front Assembly Step 3](assets/Front Assembly Step 3.png)
+
+Then you should be left with this:
+
+![Front Assembly Step 3 Complete](assets/Front Assembly Step 3 Complete.png)
+
+#### 2.4. Mount the servo.
+
+Attach the servo to the front plate using 2x M1.6 screws. Use glue to attach the servo shaft to the T-bone linkage below.
+
+![Front Assembly Step 4](assets/Front Assembly Step 4.png)
+
+Then you should be left with this:
+
+![Front Assembly Step 4 Complete](assets/Front Assembly Step 4 Complete.png)
+
+#### 2.5. Mount the camera.
+
+Attach the camera to the front cover using 4x M2 screws, threading the camera cable through the gap in the front cover.
+
+![Front Assembly Step 5](assets/Front Assembly Step 5.png)
+
+Then you should be left with this:
+
+![Front Assembly Step 5 Complete](assets/Front Assembly Step 5 Complete.png)
+
+#### 2.6. Attach the wheels.
+
+Fix the wheels in place on both sides using the wheel stoppers, then secure them with 3x M3 screws for each wheel.
+
+![Front Assembly Step 6](assets/Front Assembly Step 6.png)
+
+Then you should have a completed front assembly with a complete steering mechanism.
+
+![Finished Front Assembly](assets/Finished Front Assembly.png)
+
+While the servo is not powered, try turning one wheel. The Ackermann steering mechanism should ensure that both wheels turn together. There should be as little individual freedom of the wheels as possible.
+
 **3. Mount the motor to the chassis.** Attach `MotorHolder.FCStd` (with motor installed) to `MotorPlate.FCStd`, then screw the motor plate into the rear of `Chassis.FCStd` as a detachable connection (Section 2.1). Mesh `MotorGear.FCStd` with the rear axle gearing and confirm the rear wheels spin freely by hand before continuing.
 
 **4. Assemble the front steering linkage.** Build the Ackermann linkage per `FreeCAD-Files/Models/SteeringAckermannModel.FCStd`: mount `AxleHolder.FCStd` to the front of the chassis, install `FrontWheelAxleLeft/Right.FCStd` through it and secure with `FrontWheelStopper.FCStd`, then connect `TBoneLinkageTop.FCStd`/`TBoneLinkageBottom.FCStd` to `TransferLinkageLeft.FCStd`/`TransferLinkageRight.FCStd`, and those in turn to `WheelLinkageTopLeft/Right.FCStd` and `WheelLinkageBottomLeft/Right.FCStd` at each front wheel hub. Press the front `Wheel.FCStd` wheels onto the front axles once the linkage moves freely by hand at both steering extremes.
