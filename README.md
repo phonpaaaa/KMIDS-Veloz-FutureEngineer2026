@@ -880,21 +880,81 @@ Then you should have a completed front assembly with a complete steering mechani
 
 While the servo is not powered, try turning one wheel. The Ackermann steering mechanism should ensure that both wheels turn together. There should be as little individual freedom of the wheels as possible. Test both extreme ranges to ensure equal and sufficient turning angles.
 
+### 3. Assemble the rear drivetrain.
 
+#### 3.1. Assemble back wheel linkages and axles.
 
-**7. Mount the electronics.** Install the Raspberry Pi 5 (`RaspberryPi5.FCStd` mount) with the M.2 HAT (`RaspberryPi5M2Hat.FCStd`) attached underneath, the Pico 2 nearby, and the BNO085 IMU as close to chassis center as the mount allows (Section 3.2). Mount the fish-eye camera to the front plate using `RpiCamera.FCStd` — it's installed upside-down on purpose and corrected with a 180° frame rotation in software (Section 3.2). Mount the RPLidar S3 on its standoff plate at the front, elevated above the camera/servo stack (`RPLidarS3_Mount.FCStd`), so its 360° sweep clears the chassis body and steering linkage below it.
+Insert the `BackWheelStoppers` onto each `BackWheelAxle` from the outer side, then secure each `BackWheelConnector` to each axle using 2x M3 screws each. `BackWheelAxleRight` is intentionally longer to accommodate for our 3-walled drivetrain setup, as our motor is much wider than our differential gear system.
 
-**8. Wire power.** Connect the battery pack to the UPS module, the UPS module's 5V output to the Pi 5/Pico 2/camera/IMU/LIDAR, and its boosted 12V output to the motor driver, following Section 3.4's wiring diagram. Confirm the physical power switch on the battery/UPS pack (Section 3.1) cuts all power before doing any further wiring.
+![Rear Assembly Step 1](assets/Rear Assembly Step 1.png)
 
-**9. Wire data connections.** Wire I²C between the Pi 5 and Pico 2 (Pico at address `0x39`), I²C between the Pico 2 and the BNO085 IMU, the RPLidar S3 over USB, the camera over CSI, the motor driver's PWM/direction lines and encoder lines to the Pico 2, the servo's PWM line to the Pico 2, and the start button to Pi 5 GPIO16. See Section 3.4 for the full block diagram.
+#### 3.2. Connect axles to differential gear system.
 
-**10. Flash the Pico 2.** Build and flash the Pico 2 firmware (Section 8.2, Section 8.3).
+Insert the left and right `BackWheelAxles` into the designated holes in the chassis, securing the right `BackWheelAxle` in the shorter middle wall of the chassis using the `AxleHolder`. Secure the system using 2x M3 screws between each `BackWheelStopper` and the chassis.
 
-**11. Build the Pi 5 software.** Follow Section 8.3 to install dependencies, clone the repository, and build `rpi5_controller`.
+![Rear Assembly Step 2](assets/Rear Assembly Step 2.png)
 
-**12. Power-on check.** With wheels off the ground, power on, and confirm: the start button is read correctly (Section 8.1), the LIDAR reports plausible distances (Section 3.2), the camera opens and detects a held-up red or green object (Section 4.2), and the Pico 2 responds to a centered/neutral `PicoCommand` without the motor spinning unexpectedly.
+Between the left-most and middle walls of the chassis, place the LEGO differential gear, held in place by the `BackWheelAxles`. Within the differential gear are 3 LEGO bevel gears.
 
-**13. First driving test.** Set the robot down on an open mat, start the program, and confirm the reactive controller (Section 4.3) holds a roughly straight line and reacts sensibly as a wall is brought closer on one side — this is the same manual bench test that led to the tuning work in Section 7.
+![Rear Assembly Step 2 Closeup](assets/Rear Assembly Step 2 Closeup.png)
+
+#### 3.3. Mount motor to motor plate.
+
+Attach the 20GP-180DC motor onto the bottom of the `MotorPlate` using the `MotorHolder`, securing everything with 2x M3 screws.
+
+![Rear Assembly Step 3](assets/Rear Assembly Step 3.png)
+
+Then, you should be left with this:
+
+![Rear Assembly Step 3 Complete](assets/Rear Assembly Step 3 Complete.png)
+
+#### 3.4. Attach motor plate to chassis.
+
+Mount the motor plate to the chassis using 4x M3 screws, ensuring the shaft of the motor is to the left. Simultaneously, the `MotorGear` should be attached to the end of the motor, with the axle of the `MotorGear` held in place in the left-most wall of the chassis using an `AxleHolder`.
+
+![Rear Assembly Step 4](assets/Rear Assembly Step 4.png)
+
+Then, you should be left with this:
+
+![Rear Assembly Step 4 Complete](assets/Rear Assembly Step 4 Complete.png)
+
+#### 3.5. Attach the rear wheels.
+
+Attach the wheels to each `WheelConnector` using 3x M3 screws on each side, similarly to in the front.
+
+![Rear Assembly Step 5](assets/Rear Assembly Step 5.png)
+
+Then, you should have a completed rear assembly with a functioning drivetrain.
+
+![Finished Rear Assembly](assets/Finished Rear Assembly.png)
+
+### 4. Mount the electronics.
+
+Install the Raspberry Pi 5 (`RaspberryPi5.FCStd` mount) with the M.2 HAT (`RaspberryPi5M2Hat.FCStd`) attached underneath, the Pico 2 nearby, and the BNO085 IMU as close to chassis center as the mount allows (Section 3.2). Mount the fish-eye camera to the front plate using `RpiCamera.FCStd` — it's installed upside-down on purpose and corrected with a 180° frame rotation in software (Section 3.2). Mount the RPLidar S3 on its standoff plate at the front, elevated above the camera/servo stack (`RPLidarS3_Mount.FCStd`), so its 360° sweep clears the chassis body and steering linkage below it.
+
+### 5. Wire power.
+
+Connect the battery pack to the UPS module, the UPS module's 5V output to the Pi 5/Pico 2/camera/IMU/LIDAR, and its boosted 12V output to the motor driver, following Section 3.4's wiring diagram. Confirm the physical power switch on the battery/UPS pack (Section 3.1) cuts all power before doing any further wiring.
+
+### 6. Wire data connections.
+
+Wire I²C between the Pi 5 and Pico 2 (Pico at address `0x39`), I²C between the Pico 2 and the BNO085 IMU, the RPLidar S3 over USB, the camera over CSI, the motor driver's PWM/direction lines and encoder lines to the Pico 2, the servo's PWM line to the Pico 2, and the start button to Pi 5 GPIO16. See Section 3.4 for the full block diagram.
+
+### 7. Flash the Pico 2.
+
+Build and flash the Pico 2 firmware (Section 8.2, Section 8.3).
+
+### 8. Build the Pi 5 software.
+
+Follow Section 8.3 to install dependencies, clone the repository, and build `rpi5_controller`.
+
+### 9. Power-on check.
+
+With wheels off the ground, power on, and confirm: the start button is read correctly (Section 8.1), the LIDAR reports plausible distances (Section 3.2), the camera opens and detects a held-up red or green object (Section 4.2), and the Pico 2 responds to a centered/neutral `PicoCommand` without the motor spinning unexpectedly.
+
+### 10. First driving test.
+
+Set the robot down on an open mat, start the program, and confirm the reactive controller (Section 4.3) holds a roughly straight line and reacts sensibly as a wall is brought closer on one side — this is the same manual bench test that led to the tuning work in Section 7.
 
 [Back to Top](#kmids-veloz)
 
