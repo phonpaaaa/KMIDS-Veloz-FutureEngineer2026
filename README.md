@@ -930,7 +930,13 @@ Then, you should have a completed rear assembly with a functioning drivetrain.
 
 ### 4. Mount the electronics.
 
-Install the Raspberry Pi 5 (`RaspberryPi5.FCStd` mount) with the M.2 HAT (`RaspberryPi5M2Hat.FCStd`) attached underneath, the Pico 2 nearby, and the BNO085 IMU as close to chassis center as the mount allows (Section 3.2). Mount the fish-eye camera to the front plate using `RpiCamera.FCStd` — it's installed upside-down on purpose and corrected with a 180° frame rotation in software (Section 3.2). Mount the RPLidar S3 on its standoff plate at the front, elevated above the camera/servo stack (`RPLidarS3_Mount.FCStd`), so its 360° sweep clears the chassis body and steering linkage below it.
+1. Attach the UPS EP-0136 to the Raspberry Pi 5 using 4x M2.5 standoffs, ensuring the battery access is at the bottom and the Raspberry Pi 5 is facing upwards.
+2. Attach the Raspberry Pi M.2 HAT+ to the Raspberry Pi 5 using M2.5 standoffs, connecting the two only with the ribbon cable.
+3. Attach the Raspberry Pi Pico 2, BNO085 IMU, and step-up module to the back of the chassis.
+4. Attach the LIDAR plate to the front of the chassis using 4x M2.5 standoffs and pillars to elevate the plate. Ensure the RPLIDAR S3 is horizontal to the ground and has a clear 360-degree view around the robot.
+5. Attach the start button and RPLIDAR S3 to the LIDAR plate, ensuring the LIDAR sensor module is positioned above the motor plate.
+
+![Robot Overview](assets/robot_overview.png)
 
 ### 5. Wire power.
 
