@@ -826,57 +826,57 @@ Connect `FrontWheelAxle`, `WheelLinkageTop`, `WheelLinkageBottom`, and `Transfer
 
 Then you should be left with this:
 
-![Front Assembly Step 1 Complete](assets/Front Assembly Step 1 Complete.png)
+![Front Assembly Step 1 Complete](assets/Front%20Assembly%20Step%201%20Complete.png)
 
 #### 2.2. Connect left and right steering mechanisms.
 
 Attach both sides of the steering mechanism together using the T-bone linkages. Secure `TBoneLinkageTop` and `TBoneLinkageBottom` together with glue.
 
-![Front Assembly Step 2](assets/Front Assembly Step 2.png)
+![Front Assembly Step 2](assets/Front%20Assembly%20Step%202.png)
 
 Then you should be left with this:
 
-![Front Assembly Step 2 Complete](assets/Front Assembly Step 2 Complete.png)
+![Front Assembly Step 2 Complete](assets/Front%20Assembly%20Step%202%20Complete.png)
 
 #### 2.3. Mount the steering mechanism and front cover.
 
 Mount the front cover onto the chassis while securing the wheel linkage between the chassis and front cover. Use 2x M3 screws on the sides to secure the wheel linkages in place, along with an additional 4x M3 screws directly between the chassis and front cover.
 
-![Front Assembly Step 3](assets/Front Assembly Step 3.png)
+![Front Assembly Step 3](assets/Front%20Assembly%20Step%203.png)
 
 Then you should be left with this:
 
-![Front Assembly Step 3 Complete](assets/Front Assembly Step 3 Complete.png)
+![Front Assembly Step 3 Complete](assets/Front%20Assembly%20Step%203%20 Complete.png)
 
 #### 2.4. Mount the servo.
 
 Attach the servo to the front plate using 2x M1.6 screws. Use glue to attach the servo shaft to the T-bone linkage below. Ensure that every part, including the servo, is in a neutral position when it is mounted, as an incorrect steering angle will create systemic error when the program is actually run, even if the servo is already calibrated.
 
-![Front Assembly Step 4](assets/Front Assembly Step 4.png)
+![Front Assembly Step 4](assets/Front%20Assembly%20Step%204.png)
 
 Then you should be left with this:
 
-![Front Assembly Step 4 Complete](assets/Front Assembly Step 4 Complete.png)
+![Front Assembly Step 4 Complete](assets/Front%20Assembly%20Step%204%20Complete.png)
 
 #### 2.5. Mount the camera.
 
 Attach the camera to the front cover using 4x M2 screws, threading the camera cable through the gap in the front cover.
 
-![Front Assembly Step 5](assets/Front Assembly Step 5.png)
+![Front Assembly Step 5](assets/Front%20Assembly%20Step%205.png)
 
 Then you should be left with this:
 
-![Front Assembly Step 5 Complete](assets/Front Assembly Step 5 Complete.png)
+![Front Assembly Step 5 Complete](assets/Front%20Assembly%20Step%205%20Complete.png)
 
 #### 2.6. Attach the wheels.
 
 Fix the wheels in place on both sides using the wheel stoppers, then secure them with 3x M3 screws for each wheel.
 
-![Front Assembly Step 6](assets/Front Assembly Step 6.png)
+![Front Assembly Step 6](assets/Front%20Assembly%20Step%206.png)
 
 Then you should have a completed front assembly with a complete steering mechanism.
 
-![Finished Front Assembly](assets/Finished Front Assembly.png)
+![Finished Front Assembly](assets/Finished%20Front%20Assembly.png)
 
 While the servo is not powered, try turning one wheel. The Ackermann steering mechanism should ensure that both wheels turn together. There should be as little individual freedom of the wheels as possible. Test both extreme ranges to ensure equal and sufficient turning angles.
 
@@ -886,47 +886,47 @@ While the servo is not powered, try turning one wheel. The Ackermann steering me
 
 Insert the `BackWheelStoppers` onto each `BackWheelAxle` from the outer side, then secure each `BackWheelConnector` to each axle using 2x M3 screws each. `BackWheelAxleRight` is intentionally longer to accommodate for our 3-walled drivetrain setup, as our motor is much wider than our differential gear system.
 
-![Rear Assembly Step 1](assets/Rear Assembly Step 1.png)
+![Rear Assembly Step 1](assets/Rear%20Assembly%20Step%201.png)
 
 #### 3.2. Connect axles to differential gear system.
 
 Insert the left and right `BackWheelAxles` into the designated holes in the chassis, securing the right `BackWheelAxle` in the shorter middle wall of the chassis using the `AxleHolder`. Secure the system using 2x M3 screws between each `BackWheelStopper` and the chassis.
 
-![Rear Assembly Step 2](assets/Rear Assembly Step 2.png)
+![Rear Assembly Step 2](assets/Rear%20Assembly%20Step%202.png)
 
 Between the left-most and middle walls of the chassis, place the LEGO differential gear, held in place by the `BackWheelAxles`. Within the differential gear are 3 LEGO bevel gears.
 
-![Rear Assembly Step 2 Closeup](assets/Rear Assembly Step 2 Closeup.png)
+![Rear Assembly Step 2 Closeup](assets/Rear%20Assembly%20Step%202%20Closeup.png)
 
 #### 3.3. Mount motor to motor plate.
 
 Attach the 20GP-180DC motor onto the bottom of the `MotorPlate` using the `MotorHolder`, securing everything with 2x M3 screws.
 
-![Rear Assembly Step 3](assets/Rear Assembly Step 3.png)
+![Rear Assembly Step 3](assets/Rear%20Assembly%20Step%203.png)
 
 Then, you should be left with this:
 
-![Rear Assembly Step 3 Complete](assets/Rear Assembly Step 3 Complete.png)
+![Rear Assembly Step 3 Complete](assets/Rear%20Assembly%20Step%203%20Complete.png)
 
 #### 3.4. Attach motor plate to chassis.
 
 Mount the motor plate to the chassis using 4x M3 screws, ensuring the shaft of the motor is to the left. Simultaneously, the `MotorGear` should be attached to the end of the motor, with the axle of the `MotorGear` held in place in the left-most wall of the chassis using an `AxleHolder`.
 
-![Rear Assembly Step 4](assets/Rear Assembly Step 4.png)
+![Rear Assembly Step 4](assets/Rear%20Assembly%20Step%204.png)
 
 Then, you should be left with this:
 
-![Rear Assembly Step 4 Complete](assets/Rear Assembly Step 4 Complete.png)
+![Rear Assembly Step 4 Complete](assets/Rear%20Assembly%20Step%204Complete.png)
 
 #### 3.5. Attach the rear wheels.
 
 Attach the wheels to each `WheelConnector` using 3x M3 screws on each side, similarly to in the front.
 
-![Rear Assembly Step 5](assets/Rear Assembly Step 5.png)
+![Rear Assembly Step 5](assets/Rear%20Assembly%20Step%205.png)
 
 Then, you should have a completed rear assembly with a functioning drivetrain.
 
-![Finished Rear Assembly](assets/Finished Rear Assembly.png)
+![Finished Rear Assembly](assets/Finished%20Rear%20Assembly.png)
 
 ### 4. Mount the electronics.
 
