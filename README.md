@@ -850,7 +850,7 @@ Then you should be left with this:
 
 #### 2.4. Mount the servo.
 
-Attach the servo to the front plate using 2x M1.6 screws. Use glue to attach the servo shaft to the T-bone linkage below.
+Attach the servo to the front plate using 2x M1.6 screws. Use glue to attach the servo shaft to the T-bone linkage below. Ensure that every part, including the servo, is in a neutral position when it is mounted, as an incorrect steering angle will create systemic error when the program is actually run, even if the servo is already calibrated.
 
 ![Front Assembly Step 4](assets/Front Assembly Step 4.png)
 
@@ -878,15 +878,9 @@ Then you should have a completed front assembly with a complete steering mechani
 
 ![Finished Front Assembly](assets/Finished Front Assembly.png)
 
-While the servo is not powered, try turning one wheel. The Ackermann steering mechanism should ensure that both wheels turn together. There should be as little individual freedom of the wheels as possible.
+While the servo is not powered, try turning one wheel. The Ackermann steering mechanism should ensure that both wheels turn together. There should be as little individual freedom of the wheels as possible. Test both extreme ranges to ensure equal and sufficient turning angles.
 
-**3. Mount the motor to the chassis.** Attach `MotorHolder.FCStd` (with motor installed) to `MotorPlate.FCStd`, then screw the motor plate into the rear of `Chassis.FCStd` as a detachable connection (Section 2.1). Mesh `MotorGear.FCStd` with the rear axle gearing and confirm the rear wheels spin freely by hand before continuing.
 
-**4. Assemble the front steering linkage.** Build the Ackermann linkage per `FreeCAD-Files/Models/SteeringAckermannModel.FCStd`: mount `AxleHolder.FCStd` to the front of the chassis, install `FrontWheelAxleLeft/Right.FCStd` through it and secure with `FrontWheelStopper.FCStd`, then connect `TBoneLinkageTop.FCStd`/`TBoneLinkageBottom.FCStd` to `TransferLinkageLeft.FCStd`/`TransferLinkageRight.FCStd`, and those in turn to `WheelLinkageTopLeft/Right.FCStd` and `WheelLinkageBottomLeft/Right.FCStd` at each front wheel hub. Press the front `Wheel.FCStd` wheels onto the front axles once the linkage moves freely by hand at both steering extremes.
-
-**5. Install the steering servo.** Mount the S0009M servo to the front plate, then connect its horn to the T-bone linkage from step 4. With the servo centered (90°), the linkage should sit visually straight — adjust the horn's mounting spline position by one tooth if it doesn't, since mechanical offset here becomes real steering bias once `STEERING_CENTER = 90°` is commanded in software (Section 2.2, Section 4.3).
-
-**6. Close up the front.** Install `FrontCover.FCStd` over the front electronics/servo area.
 
 **7. Mount the electronics.** Install the Raspberry Pi 5 (`RaspberryPi5.FCStd` mount) with the M.2 HAT (`RaspberryPi5M2Hat.FCStd`) attached underneath, the Pico 2 nearby, and the BNO085 IMU as close to chassis center as the mount allows (Section 3.2). Mount the fish-eye camera to the front plate using `RpiCamera.FCStd` — it's installed upside-down on purpose and corrected with a 180° frame rotation in software (Section 3.2). Mount the RPLidar S3 on its standoff plate at the front, elevated above the camera/servo stack (`RPLidarS3_Mount.FCStd`), so its 360° sweep clears the chassis body and steering linkage below it.
 
