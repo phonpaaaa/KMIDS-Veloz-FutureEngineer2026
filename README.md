@@ -806,7 +806,7 @@ Print every part listed in Section 10.1 using the slicer settings provided in th
 
 | Part Group | Layer Height | Infill Density | Infill Pattern | Support Type | Build Plate Adhesion Type |
 |---|---|---|---|---|---|
-| Chassis | 0.3 | 25% | Guroid | Tree | None |
+| Chassis | 0.3 | 25% | Gyroid | Tree | None |
 | Motor Gear | 0.2 | 20% | Lines | None | Brim |
 | Axle Holder | 0.2 | 20% | Cubic | None | Brim |
 | Linkage & Back Wheel Components | 0.2 | 20% | Cubic | Normal | Brim |
