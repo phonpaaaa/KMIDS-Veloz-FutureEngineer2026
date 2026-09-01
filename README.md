@@ -946,7 +946,7 @@ Connect the battery pack to the UPS module, the UPS module's 5V output to the Pi
 
 Wire I²C between the Pi 5 and Pico 2 (Pico at address `0x39`), I²C between the Pico 2 and the BNO085 IMU, the RPLidar S3 over USB, the camera over CSI, the motor driver's PWM/direction lines and encoder lines to the Pico 2, the servo's PWM line to the Pico 2, and the start button to Pi 5 GPIO16. See Section 3.4 for the full block diagram.
 
-**### 7. Flash the Pico 2.**
+### 7. Flash the Pico 2.
 
 Build the Pico 2 firmware from `code/raspberry-pi-pico-2/` using the Pico SDK, then flash the resulting `.uf2` file to the Pico 2 using BOOTSEL. See Section 8.3 for the complete build and flashing procedure.
 
