@@ -322,7 +322,7 @@ The CAD files for the servo and LIDAR mount are named `S0009M_Mount.FCStd` and `
 
 ### 3.1 Power Source
 
-The system's primary logic rail, which supplies the Raspberry Pi 5, Pico 2, camera, IMU, and LIDAR, runs at **5V**. This rail is fed through a UPS module that reports its state of charge over I²C, using register `0x17`, matching the EP-0136 protocol read by our `check_battery_status.py` script. Motor power is handled separately: it is stepped up to 12V, since the 20GP-180 gearmotor is rated above what the 5V logic rail can supply on its own.
+The system's primary logic rail, which supplies the Raspberry Pi 5, Pico 2, camera, IMU, and LIDAR, runs at **5V**. This rail is fed through a UPS module that reports its state of charge over I²C, using register 0x17, matching the EP-0136 protocol implemented in our check_battery_status.py script. This register assignment is based on the module documentation and was cross-checked against an independent reference. Motor power is handled separately: it is stepped up to 12V, since the 20GP-180 gearmotor is rated above what the 5V logic rail can supply on its own.
 
 To protect the battery from being damaged by over-discharge, a `set_battery_min.py` / `ups_shutdown.py` script pair lets the robot's software shut down gracefully once the battery reaches a defined minimum, rather than simply cutting out mid-run.
 
