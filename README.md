@@ -679,7 +679,7 @@ bool start_button_is_pressed();                // debounced (30ms hardware debou
 void start_button_wait();                      // blocks until pressed
 ```
 
-Equivalent API documentation for the Pico 2 firmware will be added once its source is added to this repository (Section 8.2).
+The Pico 2 firmware API and hardware-control interfaces are documented separately in the firmware source under `code/raspberry-pi-pico-2/`.
 
 ### 8.2 Code Structure
 
