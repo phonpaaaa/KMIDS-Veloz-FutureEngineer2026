@@ -258,6 +258,8 @@ The diagram above is a general technical reference for the Ackermann geometry pr
 | Gearing | Metal | Vendor specification / hardware |
 | Type | Digital | Vendor specification |
 
+The listed specifications are based on the vendor specification and cross-checked against a second product listing.
+
 **Reason for selection:** the servo's small size and standard PWM interface make it easy to drive directly from the Pico 2, without needing a separate driver board. It also provides enough torque to steer the front wheels responsively at this vehicle's weight, while being small and light enough to mount directly to the front plate without any extra bracketry.
 
 #### Servo Selection: Compared Side by Side
@@ -294,14 +296,14 @@ Physical steering iterations are validated through the testing results in Sectio
 
 ### 2.3 Chassis Design
 
-The finished chassis body measures **244mm (long axis) × 135mm (short axis) × 59mm (height)**, confirmed directly from the FreeCAD model's bounding-box geometry.
+The finished chassis body measures 244 mm (long axis) × 135 mm (short axis) × 59 mm (height), measured directly from the FreeCAD model.
 
-| Dimension | Value |
-|---|---|
-| Chassis (L × W × H) | 244 × 135 × 59 mm |
-| Wheelbase (front-to-rear axle) | 185 mm |
-| Track width (left-to-right wheel) | 85 mm |
-| Wheel diameter | 54.7 mm |
+| Dimension | Value | Source |
+|---|---|---|
+| Chassis (L × W × H) | 244 × 135 × 59 mm | Measured from CAD |
+| Wheelbase (front-to-rear axle) | 185 mm | Measured from CAD |
+| Track width (left-to-right wheel) | 85 mm | Measured from CAD |
+| Wheel diameter | 54.7 mm | Measured from CAD |
 
 <!-- IMAGE: Annotated CAD assembly (full robot, labeled: chassis, steering, motor, electronics stack) -->
 ![Annotated CAD assembly](assets/cad_assembly.png)
