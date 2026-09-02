@@ -7,7 +7,7 @@
 > Designing, building, and continuously improving an autonomous vehicle for the World Robot Olympiad Future Engineers challenge.
 
 <!-- IMAGE: Robot overview photo (final robot, 3/4 angle, clean background) -->
-![Robot overview](assets/robot_overview.png)
+![Robot overview](assets/robot_views/robot_overview.png)
 
 </div>
 
@@ -90,17 +90,17 @@ The six required orientation views, four additional angled shots, and a photo of
 <!-- IMAGES: required six views, using our actual filenames -->
 | Front | Rear | Left |
 |---|---|---|
-| ![Front](assets/front_view.jpg) | ![Rear](assets/rear_view.jpg) | ![Left](assets/left_view.jpg) |
+| ![Front](assets/robot_views/front_view.jpg) | ![Rear](assets/robot_views/rear_view.jpg) | ![Left](assets/robot_views/left_view.jpg) |
 
 | Right | Top | Bottom |
 |---|---|---|
-| ![Right](assets/right_view.jpg) | ![Top](assets/top_view.jpg) | ![Bottom](assets/bottom_view.jpg) |
+| ![Right](assets/robot_views/right_view.jpg) | ![Top](assets/robot_views/top_view.jpg) | ![Bottom](assets/robot_views/bottom_view.jpg) |
 
 **Additional angles:**
 
 | Left side | Left-rear | Right side | Right-rear |
 |---|---|---|---|
-| ![Left side](assets/left_side_view.jpg) | ![Left rear](assets/left_back_side_view.jpg) | ![Right side](assets/right_side_view.jpg) | ![Right rear](assets/right_back_side_view.jpg) |
+| ![Left side](assets/robot_views/left_side_view.jpg) | ![Left rear](assets/robot_views/left_back_side_view.jpg) | ![Right side](assets/robot_views/right_side_view.jpg) | ![Right rear](assets/robot_views/right_back_side_view.jpg) |
 
 *In the six orientation views and the additional four angled views, the Li-Po battery is not part of the physical assembly, as it was being tested during the photo-taking process.*
 
@@ -296,7 +296,7 @@ Physical steering iterations are validated through the testing results in Sectio
 
 ### 2.3 Chassis Design
 
-The finished chassis body measures 244 mm (long axis) × 135 mm (short axis) × 59 mm (height), measured directly from the FreeCAD model.
+The finished chassis body measures 209 mm (long axis) × 130 mm (short axis) × 59 mm (height), measured directly from the FreeCAD model.
 
 | Dimension | Value | Source |
 |---|---|---|
