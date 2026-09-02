@@ -250,13 +250,13 @@ The diagram above is a general technical reference for the Ackermann geometry pr
 
 **Specifications**
 
-| Specification | Value |
-|---|---|
-| Rated torque | 1.1 kgf·cm |
-| Speed | 0.15 sec/60° |
-| Voltage | 5V |
-| Gearing | Metal |
-| Type | Digital |
+| Specification | Value | Source |
+|---|---|---|
+| Rated torque | 1.1 kgf·cm | Vendor specification |
+| Speed | 0.15 sec/60° | Vendor specification |
+| Voltage | 5V | Vendor specification / hardware |
+| Gearing | Metal | Vendor specification / hardware |
+| Type | Digital | Vendor specification |
 
 **Reason for selection:** the servo's small size and standard PWM interface make it easy to drive directly from the Pico 2, without needing a separate driver board. It also provides enough torque to steer the front wheels responsively at this vehicle's weight, while being small and light enough to mount directly to the front plate without any extra bracketry.
 
