@@ -106,7 +106,7 @@ The six required orientation views, four additional angled shots, and a photo of
 
 **Internal Electronics:**
 
-<img src="assets/internals.png" alt="Internal electronics" width="50%">
+<img src="assets/robot_views/internals.png" alt="Internal electronics" width="50%">
 
 Section 3.2 also includes a labeled top-down sensor placement diagram (`assets/sensor_placement.png`) showing LIDAR, camera, and IMU positions schematically.
 
@@ -134,7 +134,7 @@ This section covers how the robot moves: what drives the rear wheels, how the fr
 The robot uses a single **20GP-180 DC gearmotor with an integrated quadrature encoder** to drive the rear wheels. Power is transferred from the motor through a printed gear system (`MotorGear.FCStd`), while encoder feedback is wired back to the Raspberry Pi Pico 2 so wheel rotation can be measured directly instead of assumed.
 
 <!-- IMAGE: 20GP-180 motor photo -->
-<img src="assets/20gp180_motor.png" alt="20GP-180 DC gearmotor" width="50%">
+<img src="assets/parts/20gp180_motor.png" alt="20GP-180 DC gearmotor" width="50%">
 
 #### Motor: 20GP-180 DC Gearmotor
 
@@ -164,21 +164,21 @@ The 20GP-180 family is sold across several gear ratios with no-load speed and st
 **Motor gear:** power from the motor is transferred through a printed motor gear (`MotorGear.FCStd`).
 
 <!-- IMAGE: Motor gear -->
-<img src="assets/motor_gear.png" alt="Motor gear" width="50%">
+<img src="assets/parts/motor_gear.png" alt="Motor gear" width="50%">
 
 The gear is a separate printed component rather than being integrated directly into the chassis, which makes the drivetrain easier to modify if the motor, gear ratio, or wheel configuration changes during development. Our CAD parts list also includes `LegoBevelGear.FCStd` and `LegoDifferentialGear.FCStd`. We used off-the-shelf LEGO Technic gear elements paired with a `16GA.FCStd` axle rod inside the rear axle assembly rather than designing custom bevel/differential gearing from scratch, which saved print-and-fit iteration on a part that's easy to get wrong and cheap to buy correct.
 
 **Motor mounting:** the motor is mounted using a printed motor holder and a detachable motor plate.
 
 <!-- IMAGE: Motor holder -->
-<img src="assets/motor_holder.png" alt="Motor holder" width="50%">
+<img src="assets/parts/motor_holder.png" alt="Motor holder" width="50%">
 
 
 **Motor plate:** the detachable mounting plate that secures the motor holder to the chassis, allowing the motor to be removed or replaced without reprinting the entire chassis.
 
 
 <!-- IMAGE: Motor plate -->
-<img src="assets/motor_plate.png" alt="Motor plate" width="50%">
+<img src="assets/parts/motor_plate.png" alt="Motor plate" width="50%">
 
 Relevant CAD files: `MotorHolder.FCStd`, `MotorPlate.FCStd`, `MotorGear.FCStd`.
 
@@ -237,7 +237,7 @@ Before settling on the 20GP-180, we compared it directly against the two other d
 ### 2.2 Steering
 
 <!-- IMAGE: Ackermann steering geometry reference diagram -->
-![Ackermann steering geometry](assets/ackermann_diagram.jpg)
+![Ackermann steering geometry](assets/diagrams/ackermann_diagram.jpg)
 
 Our steering geometry (`FreeCAD-Files/Models/SteeringAckermannModel.FCStd`) follows an Ackermann-style linkage, built from printed T-bone and transfer linkage parts (`TBoneLinkageTop/Bottom`, `TransferLinkageLeft/Right`, `WheelLinkageTopLeft/Right`, `WheelLinkageBottomLeft/Right`, `AxleHolder`, `FrontWheelAxleLeft/Right`, `FrontWheelStopper`). Ackermann geometry angles the inner and outer front wheels differently during a turn so that both wheels roll instead of scrubbing sideways against the mat. This matters most in the Obstacle Challenge, where the robot needs a tight and repeatable turning radius to get around pillars and into the parking bay without excess slip changing its actual path from run to run.
 
@@ -246,7 +246,7 @@ The diagram above is a general technical reference for the Ackermann geometry pr
 #### Servo: Surpass Hobby S0009M (9g digital)
 
 <!-- IMAGE: Servo photo -->
-<img src="assets/servo.png" alt="Surpass Hobby S0009M servo" width="50%">
+<img src="assets/parts/servo.png" alt="Surpass Hobby S0009M servo" width="50%">
 
 **Specifications**
 
@@ -273,7 +273,7 @@ The listed specifications are based on the vendor specification and cross-checke
 #### Linkages
 
 <!-- IMAGE: T-bone and transfer linkage parts -->
-<img src="assets/steering_linkages.png" alt="Steering linkage parts" width="60%">
+<img src="assets/parts/steering_linkages.png" alt="Steering linkage parts" width="60%">
 
 The T-bone linkage connects the servo horn to the two transfer linkages, which in turn connect to the wheel linkages at each front wheel. Splitting the linkage into separate printed parts (rather than one solid arm) lets us adjust pivot points and re-print a single part if a specific linkage geometry needs revising, instead of reprinting the whole steering assembly.
 
@@ -284,7 +284,7 @@ The physical steering range is constrained in firmware, not just by the linkage 
 #### Mounting
 
 <!-- IMAGE: Servo mounting on front plate -->
-![Servo mounting](assets/servo_mounting.png)
+![Servo mounting](assets/parts/servo_mounting.png)
 
 The servo is screwed directly into a platform plate at the front of the chassis, connected to the steering mechanism described above.
 
@@ -306,7 +306,7 @@ The finished chassis body measures 209 mm (long axis) × 130 mm (short axis) × 
 | Wheel diameter | 54.7 mm | Measured from CAD |
 
 <!-- IMAGE: Annotated CAD assembly (full robot, labeled: chassis, steering, motor, electronics stack) -->
-![Annotated CAD assembly](assets/cad_assembly.png)
+![Annotated CAD assembly](assets/parts/cad_assembly.png)
 
 The chassis is built up from a base plate through a sequence of pads and pockets that create mounting cutouts, wire-routing gaps, and standoff holes, with fillets applied to the final edges. This approach does two things at once: it keeps the whole robot well within the WRO 300×200×300mm size limit with margin to spare, and it leaves room to reposition the electronics stack later without having to redesign the body from scratch.
 
@@ -331,7 +331,7 @@ To protect the battery from being damaged by over-discharge, a `set_battery_min.
 ### 3.2 Sensor and Camera
 
 <!-- IMAGE: Sensor placement photo/diagram: top-down or side view showing lidar/camera/IMU mounting points -->
-<img src="assets/sensor_placement.png" alt="Sensor placement" width="60%">
+<img src="assets/diagrams/sensor_placement.png" alt="Sensor placement" width="60%">
 
 Each sensor's mounting position was chosen for a specific reason tied to what it needs to see or measure, rather than wherever happened to have free space on the chassis.
 
