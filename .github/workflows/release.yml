@@ -20,7 +20,7 @@ jobs:
     steps:
       - name: Prepare release
         id: prepare
-        uses: google-github-actions/release-please-action@v3
+        uses: googleapis/release-please-action@v5
         with:
           release-type: simple
           package-name: test
