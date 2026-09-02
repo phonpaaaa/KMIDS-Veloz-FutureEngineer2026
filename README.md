@@ -262,11 +262,11 @@ The diagram above is a general technical reference for the Ackermann geometry pr
 
 #### Servo Selection: Compared Side by Side
 
-| Option | Torque | Speed | Resolution | Why we did / didn't pick it |
-|---|---|---|---|---|
-| S0009M digital (chosen) | 1.1 kgf·cm | 0.15s/60° | Standard digital PWM | Enough torque for this vehicle's weight, small enough to mount on the front plate directly, and drives natively from the Pico's PWM, no extra driver board needed. |
-| Generic analog 9g servo | ~1.0 kgf·cm | ~0.12–0.20s/60° | Coarser, more deadband | Cheaper, but analog servos have a wider deadband, which showed up as looser centering during early bench tests. Rejected for the tighter steering precision parking demands. |
-| Larger metal-gear servo (e.g. MG90S-class or bigger) | 2–3 kgf·cm | Similar or slower | Similar digital resolution | More torque margin, but heavier and physically larger than the front plate mount was designed for. Rejected for this chassis revision; noted as the first upgrade path if servo precision becomes a limiting factor (see Design Considerations). |
+| Option | Torque | Speed | Resolution | Why we did / didn't pick it | Source |
+|---|---|---|---|---|---|
+| S0009M digital (chosen) | 1.1 kgf·cm | 0.15s/60° | Standard digital PWM | Enough torque for this vehicle's weight, small enough to mount on the front plate directly, and drives natively from the Pico's PWM, no extra driver board needed. | Vendor specification |
+| Generic analog 9g servo | ~1.0 kgf·cm | ~0.12–0.20s/60° | Coarser, more deadband | Cheaper, but analog servos have a wider deadband, which showed up as looser centering during early bench tests. Rejected for the tighter steering precision parking demands. | Generic category; not a specific product |
+| Larger metal-gear servo (e.g. MG90S-class or bigger) | 2–3 kgf·cm | Similar or slower | Similar digital resolution | More torque margin, but heavier and physically larger than the front plate mount was designed for. Rejected for this chassis revision; noted as the first upgrade path if servo precision becomes a limiting factor (see Design Considerations). | Generic category; not a specific product |
 
 #### Linkages
 
