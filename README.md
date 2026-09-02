@@ -7,7 +7,7 @@
 > Designing, building, and continuously improving an autonomous vehicle for the World Robot Olympiad Future Engineers challenge.
 
 <!-- IMAGE: Robot overview photo (final robot, 3/4 angle, clean background) -->
-![Robot overview](assets/robot_overview.png)
+![Robot overview](assets/robot_views/robot_overview.png)
 
 </div>
 
@@ -90,23 +90,23 @@ The six required orientation views, four additional angled shots, and a photo of
 <!-- IMAGES: required six views, using our actual filenames -->
 | Front | Rear | Left |
 |---|---|---|
-| ![Front](assets/front_view.jpg) | ![Rear](assets/rear_view.jpg) | ![Left](assets/left_view.jpg) |
+| ![Front](assets/robot_views/front_view.jpg) | ![Rear](assets/robot_views/rear_view.jpg) | ![Left](assets/robot_views/left_view.jpg) |
 
 | Right | Top | Bottom |
 |---|---|---|
-| ![Right](assets/right_view.jpg) | ![Top](assets/top_view.jpg) | ![Bottom](assets/bottom_view.jpg) |
+| ![Right](assets/robot_views/right_view.jpg) | ![Top](assets/robot_views/top_view.jpg) | ![Bottom](assets/robot_views/bottom_view.jpg) |
 
 **Additional angles:**
 
 | Left side | Left-rear | Right side | Right-rear |
 |---|---|---|---|
-| ![Left side](assets/left_side_view.jpg) | ![Left rear](assets/left_back_side_view.jpg) | ![Right side](assets/right_side_view.jpg) | ![Right rear](assets/right_back_side_view.jpg) |
+| ![Left side](assets/robot_views/left_side_view.jpg) | ![Left rear](assets/robot_views/left_back_side_view.jpg) | ![Right side](assets/robot_views/right_side_view.jpg) | ![Right rear](assets/robot_views/right_back_side_view.jpg) |
 
 *In the six orientation views and the additional four angled views, the Li-Po battery is not part of the physical assembly, as it was being tested during the photo-taking process.*
 
 **Internal Electronics:**
 
-<img src="assets/internals.png" alt="Internal electronics" width="50%">
+<img src="assets/robot_views/internals.png" alt="Internal electronics" width="50%">
 
 Section 3.2 also includes a labeled top-down sensor placement diagram (`assets/sensor_placement.png`) showing LIDAR, camera, and IMU positions schematically.
 
@@ -134,7 +134,7 @@ This section covers how the robot moves: what drives the rear wheels, how the fr
 The robot uses a single **20GP-180 DC gearmotor with an integrated quadrature encoder** to drive the rear wheels. Power is transferred from the motor through a printed gear system (`MotorGear.FCStd`), while encoder feedback is wired back to the Raspberry Pi Pico 2 so wheel rotation can be measured directly instead of assumed.
 
 <!-- IMAGE: 20GP-180 motor photo -->
-<img src="assets/20gp180_motor.png" alt="20GP-180 DC gearmotor" width="50%">
+<img src="assets/parts/20gp180_motor.png" alt="20GP-180 DC gearmotor" width="50%">
 
 #### Motor: 20GP-180 DC Gearmotor
 
@@ -164,21 +164,21 @@ The 20GP-180 family is sold across several gear ratios with no-load speed and st
 **Motor gear:** power from the motor is transferred through a printed motor gear (`MotorGear.FCStd`).
 
 <!-- IMAGE: Motor gear -->
-<img src="assets/motor_gear.png" alt="Motor gear" width="50%">
+<img src="assets/parts/motor_gear.png" alt="Motor gear" width="50%">
 
 The gear is a separate printed component rather than being integrated directly into the chassis, which makes the drivetrain easier to modify if the motor, gear ratio, or wheel configuration changes during development. Our CAD parts list also includes `LegoBevelGear.FCStd` and `LegoDifferentialGear.FCStd`. We used off-the-shelf LEGO Technic gear elements paired with a `16GA.FCStd` axle rod inside the rear axle assembly rather than designing custom bevel/differential gearing from scratch, which saved print-and-fit iteration on a part that's easy to get wrong and cheap to buy correct.
 
 **Motor mounting:** the motor is mounted using a printed motor holder and a detachable motor plate.
 
 <!-- IMAGE: Motor holder -->
-<img src="assets/motor_holder.png" alt="Motor holder" width="50%">
+<img src="assets/parts/motor_holder.png" alt="Motor holder" width="50%">
 
 
 **Motor plate:** the detachable mounting plate that secures the motor holder to the chassis, allowing the motor to be removed or replaced without reprinting the entire chassis.
 
 
 <!-- IMAGE: Motor plate -->
-<img src="assets/motor_plate.png" alt="Motor plate" width="50%">
+<img src="assets/parts/motor_plate.png" alt="Motor plate" width="50%">
 
 Relevant CAD files: `MotorHolder.FCStd`, `MotorPlate.FCStd`, `MotorGear.FCStd`.
 
@@ -237,7 +237,7 @@ Before settling on the 20GP-180, we compared it directly against the two other d
 ### 2.2 Steering
 
 <!-- IMAGE: Ackermann steering geometry reference diagram -->
-![Ackermann steering geometry](assets/ackermann_diagram.jpg)
+![Ackermann steering geometry](assets/diagrams/ackermann_diagram.jpg)
 
 Our steering geometry (`FreeCAD-Files/Models/SteeringAckermannModel.FCStd`) follows an Ackermann-style linkage, built from printed T-bone and transfer linkage parts (`TBoneLinkageTop/Bottom`, `TransferLinkageLeft/Right`, `WheelLinkageTopLeft/Right`, `WheelLinkageBottomLeft/Right`, `AxleHolder`, `FrontWheelAxleLeft/Right`, `FrontWheelStopper`). Ackermann geometry angles the inner and outer front wheels differently during a turn so that both wheels roll instead of scrubbing sideways against the mat. This matters most in the Obstacle Challenge, where the robot needs a tight and repeatable turning radius to get around pillars and into the parking bay without excess slip changing its actual path from run to run.
 
@@ -246,7 +246,7 @@ The diagram above is a general technical reference for the Ackermann geometry pr
 #### Servo: Surpass Hobby S0009M (9g digital)
 
 <!-- IMAGE: Servo photo -->
-<img src="assets/servo.png" alt="Surpass Hobby S0009M servo" width="50%">
+<img src="assets/parts/servo.png" alt="Surpass Hobby S0009M servo" width="50%">
 
 **Specifications**
 
@@ -273,7 +273,7 @@ The listed specifications are based on the vendor specification and cross-checke
 #### Linkages
 
 <!-- IMAGE: T-bone and transfer linkage parts -->
-<img src="assets/steering_linkages.png" alt="Steering linkage parts" width="60%">
+<img src="assets/parts/steering_linkages.png" alt="Steering linkage parts" width="60%">
 
 The T-bone linkage connects the servo horn to the two transfer linkages, which in turn connect to the wheel linkages at each front wheel. Splitting the linkage into separate printed parts (rather than one solid arm) lets us adjust pivot points and re-print a single part if a specific linkage geometry needs revising, instead of reprinting the whole steering assembly.
 
@@ -284,7 +284,7 @@ The physical steering range is constrained in firmware, not just by the linkage 
 #### Mounting
 
 <!-- IMAGE: Servo mounting on front plate -->
-![Servo mounting](assets/servo_mounting.png)
+![Servo mounting](assets/parts/servo_mounting.png)
 
 The servo is screwed directly into a platform plate at the front of the chassis, connected to the steering mechanism described above.
 
@@ -296,7 +296,7 @@ Physical steering iterations are validated through the testing results in Sectio
 
 ### 2.3 Chassis Design
 
-The finished chassis body measures 244 mm (long axis) × 135 mm (short axis) × 59 mm (height), measured directly from the FreeCAD model.
+The finished chassis body measures 209 mm (long axis) × 130 mm (short axis) × 59 mm (height), measured directly from the FreeCAD model.
 
 | Dimension | Value | Source |
 |---|---|---|
@@ -306,7 +306,7 @@ The finished chassis body measures 244 mm (long axis) × 135 mm (short axis) × 
 | Wheel diameter | 54.7 mm | Measured from CAD |
 
 <!-- IMAGE: Annotated CAD assembly (full robot, labeled: chassis, steering, motor, electronics stack) -->
-![Annotated CAD assembly](assets/cad_assembly.png)
+![Annotated CAD assembly](assets/parts/cad_assembly.png)
 
 The chassis is built up from a base plate through a sequence of pads and pockets that create mounting cutouts, wire-routing gaps, and standoff holes, with fillets applied to the final edges. This approach does two things at once: it keeps the whole robot well within the WRO 300×200×300mm size limit with margin to spare, and it leaves room to reposition the electronics stack later without having to redesign the body from scratch.
 
@@ -331,7 +331,7 @@ To protect the battery from being damaged by over-discharge, a `set_battery_min.
 ### 3.2 Sensor and Camera
 
 <!-- IMAGE: Sensor placement photo/diagram: top-down or side view showing lidar/camera/IMU mounting points -->
-<img src="assets/sensor_placement.png" alt="Sensor placement" width="60%">
+<img src="assets/diagrams/sensor_placement.png" alt="Sensor placement" width="60%">
 
 Each sensor's mounting position was chosen for a specific reason tied to what it needs to see or measure, rather than wherever happened to have free space on the chassis.
 
@@ -344,12 +344,12 @@ Each sensor's mounting position was chosen for a specific reason tied to what it
 **Camera calibration and pipeline:** our camera pipeline captures at 640×480 @ 30fps over a GStreamer/`libcamerasrc` pipeline (`libcamerasrc ! video/x-raw,format=NV12,colorimetry=bt709,width=640,height=480,framerate=30/1 ! queue ! videoconvert ! video/x-raw,format=BGR ! appsink drop=true max-buffers=1 sync=false`). The `drop=true max-buffers=1 sync=false` appsink configuration always hands the processing loop the newest available frame and discards anything older, rather than letting frames queue up if a loop iteration runs slow. For a reactive controller, a stale frame is worse than a dropped one. The camera is physically mounted upside-down on the front plate, so every captured frame is rotated 180° in software before any detection runs. Detection converts to HSV and thresholds two ranges: green (`H 35–90, S 80–255, V 50–255`) and red, which wraps around hue 0 so it's built from two ranges (`H 0–10` and `H 170–179`, both `S 100–255, V 60–255`) combined with a bitwise OR. Both masks go through a morphological open then close (3×3 kernel) to remove speckle noise and close small gaps before contour detection. Detected contours are rejected if they're under 500px² (`MIN_OBJECT_AREA`) or cover more than 30% of the frame (`MAX_FRAME_AREA_RATIO`). A further shape filter requires `height > width * 1.15` and a minimum bounding box of 40×15px, since a WRO pillar is reliably taller than it is wide. Exposure and white balance are locked for consistent detection.
 
 <!-- IMAGE: Camera detection pipeline -->
-![Camera detection pipeline](assets/camera_pipeline.png)
+![Camera detection pipeline](assets/diagrams/camera_pipeline.png)
 
 **LIDAR filtering pipeline:** raw scan points outside 40mm–9000mm are discarded before any further processing (`lidar.cpp`). Valid points are grouped into four angular sectors: front (±6°), left/right (±8° each), back (±8°). Each sector's distance is the **median** of all points that landed in it, and that raw median is then passed through a temporal filter: a normal frame-to-frame change is smoothed with an exponential moving average (`FILTER_ALPHA = 0.40`), but a jump larger than 1200mm is only accepted once it's been seen for 3 consecutive frames (`JUMP_CONFIRM_FRAMES`). This stops a single bad LIDAR return from producing a one-frame phantom wall or opening. The navigation controller (Section 4.3) then applies its own, separate validity window (60mm–6000mm) on top of this already-filtered value. For debugging, `lidar_update()` also renders a top-down occupancy image (800×800px, 0.08 px/mm) with the raw point cloud, Hough-transform-detected wall line segments, and range rings, saved to disk every scan, very useful for bench tuning.
 
 <!-- IMAGE: LIDAR angular sector diagram -->
-<img src="assets/lidar_sectors.png" alt="LIDAR angular sectors" width="70%">
+<img src="assets/diagrams/lidar_sectors.png" alt="LIDAR angular sectors" width="70%">
 
 The diagram above shows the four angular sectors (front ±6°, left/right ±8°, back ±8°) the raw point cloud is grouped into before the median + EMA filtering described above is applied, narrower sectors than an earlier ±15° version, specifically to keep an adjacent wall or opening from bleeding into the wrong sector's reading.
 
@@ -375,7 +375,7 @@ The listed specifications are based on manufacturer specifications; the S3 speci
 | Raspberry Pi Pico 2 | I²C slave (address `0x39`) | Executes motor/steering commands, reports encoder + IMU telemetry |
 
 <!-- IMAGE: Pi 5 / Pico 2 I2C master-slave relationship -->
-![I2C master/slave relationship](assets/i2c_master_slave.png)
+![I2C master/slave relationship](assets/diagrams/i2c_master_slave.png)
 
 The Pi 5 handles sensing and decision-making because that workload isn't hard-real-time; it can tolerate an occasional slow frame without breaking anything downstream. Motor and servo output need to be timely and consistent, so that responsibility sits on the Pico 2, with the Pi 5 sending it target commands roughly every 10ms. Because the Pico is purely a slave on this bus, it never initiates communication — it only acts on the most recent command the Pi 5 wrote to it. Section 4 covers the current software split in detail.
 
@@ -408,7 +408,7 @@ The Pi 5 sends a `PicoCommand` every loop iteration (roughly every 10ms) and rea
 
 The system uses a dual-voltage topology: a main 5V logic rail supplied via the I²C-monitored UPS module, and a stepped-up 12V rail dedicated to the drive motor to isolate high-current inductive spikes from logic electronics.
 
-![Power budget by component](assets/power_budget.png)
+![Power budget by component](assets/diagrams/power_budget.png)
 
 | Component | Rail Voltage | Nominal Current (Idle) | Peak Current (Full Load) | Notes / Source |
 |---|---|---|---|---|
@@ -447,7 +447,7 @@ The active Raspberry Pi 5 codebase (project `RaspberryPi5Controller`, built exec
 | `main.cpp` | Wires the above together into the main loop |
 
 <!-- IMAGE: Pi 5 software module / data-flow diagram -->
-![Pi 5 software module and data flow](assets/software_architecture.png)
+![Pi 5 software module and data flow](assets/diagrams/software_architecture.png)
 
 The diagram above shows how `main.cpp` actually wires these modules together each loop iteration, sensing modules feeding into the active navigation controller, which feeds `pico_i2c` out to the Pico 2, with `open_challenge` sitting off to the side as a module that compiles but isn't in the active call path (Section 5.1).
 
@@ -459,7 +459,7 @@ The diagram above shows how `main.cpp` actually wires these modules together eac
 
 ### 4.3 Reactive Navigation Controller
 
-<img src="assets/navigation_control_loop.png" alt="Reactive navigation control loop" width="70%">
+<img src="assets/diagrams/navigation_control_loop.png" alt="Reactive navigation control loop" width="70%">
 
 Rather than planning a path or holding a fixed heading, the active controller (`navigation.cpp`) is a proportional reactive scheme: every ~10ms it looks at the four current LIDAR distances and reacts directly, tuned by hand against a set of named constants.
 
@@ -482,7 +482,7 @@ The controller accepts `yaw_deg` in its function signature but the current imple
 **Status:** the robot currently drives the Open Challenge using the reactive controller described in Section 4.3: pure wall-following via LIDAR distances. `main.cpp` documents this directly in its own comments: *"navigation.cpp is now the ONLY thing controlling steering and speed."*
 
 <!-- IMAGE: Open Challenge state machine -->
-![Open Challenge state machine](assets/open_challenge_states.png)
+![Open Challenge state machine](assets/diagrams/open_challenge_states.png)
 
 A second module, `open_challenge.cpp`/`.h`, implements a more structured heading-hold approach and is documented here in full since it represents working, tested design logic:
 
@@ -499,7 +499,7 @@ The obstacle avoidance system combines the camera's color detection pipeline wit
 `camera.cpp` detects red and green pillar candidates with position and size (Section 4.2), running every loop against real camera frames.
 
 <!-- IMAGE: Obstacle Challenge decision-flow diagram -->
-![Obstacle Challenge decision flow](assets/obstacle_decision_flow.png)
+![Obstacle Challenge decision flow](assets/diagrams/obstacle_decision_flow.png)
 
 Target integration design: the planned integrated controller will use a CameraObjectColor::RED detection to bias... the reactive controller toward the right side of the track, and `GREEN` toward the left — matching the WRO rule that a robot passes red pillars on their right and green pillars on their left. The system converts the pillar's `center_x` pixel position (and its `area`, as a rough proxy for distance) into a lateral offset term in millimeters, and adds that directly into the same steering sum that Section 4.3's side/front wall reactions already feed into, rather than a second, separate control path: detect color → confirm via the existing area/shape filters → compute how far off-center it is in frame → bias steering proportionally, capped the same way side/front reactions are already capped.
 
@@ -518,7 +518,7 @@ Edge cases such as multiple pillars, partial visibility, and close-range detecti
 ### 5.3 Parallel Parking
 
 <!-- IMAGE: Parking sequence diagram -->
-![Parking sequence diagram](assets/parking_sequence.png)
+![Parking sequence diagram](assets/diagrams/parking_sequence.png)
 
 **Target approach:** a LIDAR-only reverse-park using the same four-direction distance read the reactive controller already relies on, extended to watch the side and back distances specifically for the bay's opening once the robot is past the last pillar. The sequence is: drive past the parking zone at reduced speed while watching the side LIDAR reading for the gap where the bay wall recesses; confirm the gap over multiple frames using the same multi-frame confirmation pattern `open_challenge.cpp`'s direction detection already uses (Section 5.1); steer into a reverse arc using the back and side distances to judge depth and squareness. Driving direction (CW/CCW) changes which side the bay opening appears on and which way the reverse arc curves, the same way it changes the outer-wall side in `open_challenge.cpp`.
 
@@ -568,7 +568,7 @@ The season started with `open_challenge.cpp`'s heading-hold approach and moved t
 
 ## 7. Testing and Results
 
-![Testing results: wall contact and completion rate](assets/testing_results.png)
+![Testing results: wall contact and completion rate](assets/diagrams/testing_results.png)
 
 ### 7.1 Open Challenge Wall-Following
 
@@ -878,61 +878,61 @@ Remove supports and test-fit mating parts (especially linkage pivots) before mov
 
 Connect `FrontWheelAxle`, `WheelLinkageTop`, `WheelLinkageBottom`, and `TransferLinkage` to assemble the wheel linkage mechanism. The left side is shown below; repeat the same process for the right side.
 
-![Front Assembly Step 1](assets/Front%20Assembly%20Step%201.png)
+![Front Assembly Step 1](assets/assembly/front_assembly/Front%20Assembly%20Step%201.png)
 
 Then you should be left with this:
 
-![Front Assembly Step 1 Complete](assets/Front%20Assembly%20Step%201%20Complete.png)
+![Front Assembly Step 1 Complete](assets/assembly/front_assembly/Front%20Assembly%20Step%201%20Complete.png)
 
 #### 2.2. Connect left and right steering mechanisms.
 
 Attach both sides of the steering mechanism together using the T-bone linkages. Secure `TBoneLinkageTop` and `TBoneLinkageBottom` together with glue.
 
-![Front Assembly Step 2](assets/Front%20Assembly%20Step%202.png)
+![Front Assembly Step 2](assets/assembly/front_assembly/Front%20Assembly%20Step%202.png)
 
 Then you should be left with this:
 
-![Front Assembly Step 2 Complete](assets/Front%20Assembly%20Step%202%20Complete.png)
+![Front Assembly Step 2 Complete](assets/assembly/front_assembly/Front%20Assembly%20Step%202%20Complete.png)
 
 #### 2.3. Mount the steering mechanism and front cover.
 
 Mount the front cover onto the chassis while securing the wheel linkage between the chassis and front cover. Use 2x M3 screws on the sides to secure the wheel linkages in place, along with an additional 4x M3 screws directly between the chassis and front cover.
 
-![Front Assembly Step 3](assets/Front%20Assembly%20Step%203.png)
+![Front Assembly Step 3](assets/assembly/front_assembly/Front%20Assembly%20Step%203.png)
 
 Then you should be left with this:
 
-![Front Assembly Step 3 Complete](assets/Front%20Assembly%20Step%203%20 Complete.png)
+![Front Assembly Step 3 Complete](assets/assembly/front_assembly/Front%20Assembly%20Step%203%20 Complete.png)
 
 #### 2.4. Mount the servo.
 
 Attach the servo to the front plate using 2x M1.6 screws. Use glue to attach the servo shaft to the T-bone linkage below. Ensure that every part, including the servo, is in a neutral position when it is mounted, as an incorrect steering angle will create systemic error when the program is actually run, even if the servo is already calibrated.
 
-![Front Assembly Step 4](assets/Front%20Assembly%20Step%204.png)
+![Front Assembly Step 4](assets/assembly/front_assembly/Front%20Assembly%20Step%204.png)
 
 Then you should be left with this:
 
-![Front Assembly Step 4 Complete](assets/Front%20Assembly%20Step%204%20Complete.png)
+![Front Assembly Step 4 Complete](assets/assembly/front_assembly/Front%20Assembly%20Step%204%20Complete.png)
 
 #### 2.5. Mount the camera.
 
 Attach the camera to the front cover using 4x M2 screws, threading the camera cable through the gap in the front cover.
 
-![Front Assembly Step 5](assets/Front%20Assembly%20Step%205.png)
+![Front Assembly Step 5](assets/assembly/front_assembly/Front%20Assembly%20Step%205.png)
 
 Then you should be left with this:
 
-![Front Assembly Step 5 Complete](assets/Front%20Assembly%20Step%205%20Complete.png)
+![Front Assembly Step 5 Complete](assets/assembly/front_assembly/Front%20Assembly%20Step%205%20Complete.png)
 
 #### 2.6. Attach the wheels.
 
 Fix the wheels in place on both sides using the wheel stoppers, then secure them with 3x M3 screws for each wheel.
 
-![Front Assembly Step 6](assets/Front%20Assembly%20Step%206.png)
+![Front Assembly Step 6](assets/assembly/front_assembly/Front%20Assembly%20Step%206.png)
 
 Then you should have a completed front assembly with a complete steering mechanism.
 
-![Finished Front Assembly](assets/Finished%20Front%20Assembly.png)
+![Finished Front Assembly](assets/assembly/front_assembly/Finished%20Front%20Assembly.png)
 
 While the servo is not powered, try turning one wheel. The Ackermann steering mechanism should ensure that both wheels turn together. There should be as little individual freedom of the wheels as possible. Test both extreme ranges to ensure equal and sufficient turning angles.
 
@@ -942,47 +942,47 @@ While the servo is not powered, try turning one wheel. The Ackermann steering me
 
 Insert the `BackWheelStoppers` onto each `BackWheelAxle` from the outer side, then secure each `BackWheelConnector` to each axle using 2x M3 screws each. `BackWheelAxleRight` is intentionally longer to accommodate for our 3-walled drivetrain setup, as our motor is much wider than our differential gear system.
 
-![Rear Assembly Step 1](assets/Rear%20Assembly%20Step%201.png)
+![Rear Assembly Step 1](assets/assembly/rear_assembly/Rear%20Assembly%20Step%201.png)
 
 #### 3.2. Connect axles to differential gear system.
 
 Insert the left and right `BackWheelAxles` into the designated holes in the chassis, securing the right `BackWheelAxle` in the shorter middle wall of the chassis using the `AxleHolder`. Secure the system using 2x M3 screws between each `BackWheelStopper` and the chassis.
 
-![Rear Assembly Step 2](assets/Rear%20Assembly%20Step%202.png)
+![Rear Assembly Step 2](assets/assembly/rear_assemblyRear%20Assembly%20Step%202.png)
 
 Between the left-most and middle walls of the chassis, place the LEGO differential gear, held in place by the `BackWheelAxles`. Within the differential gear are 3 LEGO bevel gears.
 
-![Rear Assembly Step 2 Closeup](assets/Rear%20Assembly%20Step%202%20Closeup.png)
+![Rear Assembly Step 2 Closeup](assets/assembly/rear_assemblyRear%20Assembly%20Step%202%20Closeup.png)
 
 #### 3.3. Mount motor to motor plate.
 
 Attach the 20GP-180DC motor onto the bottom of the `MotorPlate` using the `MotorHolder`, securing everything with 2x M3 screws.
 
-![Rear Assembly Step 3](assets/Rear%20Assembly%20Step%203.png)
+![Rear Assembly Step 3](assets/assembly/rear_assemblyRear%20Assembly%20Step%203.png)
 
 Then, you should be left with this:
 
-![Rear Assembly Step 3 Complete](assets/Rear%20Assembly%20Step%203%20Complete.png)
+![Rear Assembly Step 3 Complete](assets/assembly/rear_assemblyRear%20Assembly%20Step%203%20Complete.png)
 
 #### 3.4. Attach motor plate to chassis.
 
 Mount the motor plate to the chassis using 4x M3 screws, ensuring the shaft of the motor is to the left. Simultaneously, the `MotorGear` should be attached to the end of the motor, with the axle of the `MotorGear` held in place in the left-most wall of the chassis using an `AxleHolder`.
 
-![Rear Assembly Step 4](assets/Rear%20Assembly%20Step%204.png)
+![Rear Assembly Step 4](assets/assembly/rear_assemblyRear%20Assembly%20Step%204.png)
 
 Then, you should be left with this:
 
-![Rear Assembly Step 4 Complete](assets/Rear%20Assembly%20Step%204Complete.png)
+![Rear Assembly Step 4 Complete](assets/assembly/rear_assemblyRear%20Assembly%20Step%204Complete.png)
 
 #### 3.5. Attach the rear wheels.
 
 Attach the wheels to each `BackWheelConnector` using 3x M3 screws on each side, similarly to in the front.
 
-![Rear Assembly Step 5](assets/Rear%20Assembly%20Step%205.png)
+![Rear Assembly Step 5](assets/assembly/rear_assemblyRear%20Assembly%20Step%205.png)
 
 Then, you should have a completed rear assembly with a functioning drivetrain.
 
-![Finished Rear Assembly](assets/Finished%20Rear%20Assembly.png)
+![Finished Rear Assembly](assets/assembly/rear_assemblyFinished%20Rear%20Assembly.png)
 
 ### 4. Mount the electronics.
 
@@ -992,7 +992,7 @@ Then, you should have a completed rear assembly with a functioning drivetrain.
 4. Attach the LIDAR plate to the front of the chassis using 4x M2.5 standoffs and pillars to elevate the plate. Ensure the RPLIDAR S3 is horizontal to the ground and has a clear 360-degree view around the robot.
 5. Attach the start button and RPLIDAR S3 to the LIDAR plate, ensuring the LIDAR sensor module is positioned above the motor plate.
 
-![Robot Overview](assets/robot_overview.png)
+![Robot Overview](assets/robot_views/robot_overview.png)
 
 ### 5. Wire power.
 
@@ -1028,13 +1028,13 @@ Set the robot down on an open mat, start the program, and confirm the reactive c
 
 **Chassis iteration.** The chassis went through three major revisions during development. **Chassis V1** was our initial design and established the basic layout of the drivetrain, electronics, and sensor mounts.
 
-![Chassis V1](../assets/chassisv1.png)
+![Chassis V1](../assets/robot_views/chassisv1.png)
 
 *Chassis V1*
 
 **Chassis V2** repositioned the LIDAR in front of the Raspberry Pi 5 so that the Pi would no longer obstruct the LIDAR's field of view. This revision also compressed the chassis layout slightly to reduce unnecessary space.
 
-![Chassis V2](../assets/chassisv2.png)
+![Chassis V2](../assets/robot_views/chassisv2.png)
 
 *Chassis V2*
 
@@ -1042,7 +1042,7 @@ The assembly files currently use this file. However, there is little to no diffe
 
 **Chassis V3**, the current revision, shortened the overall chassis by approximately 35 mm. This reduced dead space and improved maneuverability by making the robot more compact.
 
-![Chassis V3](../assets/chassisv3.jpg)
+![Chassis V3](../assets/robot_views/chassisv3.jpg)
 
 *Chassis V3*
 
