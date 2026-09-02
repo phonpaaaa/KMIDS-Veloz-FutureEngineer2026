@@ -593,6 +593,15 @@ Our most substantial round of tuning so far addressed an oscillation problem in 
 
 These pillar-pass and parking figures are from practice-mat testing of the logic described in Section 5.2 and Section 5.3; the primary parking failure mode is inconsistent alignment during the `ALIGN` phase (Section 5.3).
 
+**Evidence Status**
+
+| Result | Evidence |
+|---|---|
+| Wall-contact reduction | Practice-mat test results; 5 runs before and 5 runs after the controller fix |
+| Open Challenge completion | 20 practice-mat lap attempts; 16 completed without a wall-contact ending the run |
+| Pillar-pass success | 40 practice-mat pillar approaches; 37 successful |
+| Parking success | 20 practice-mat attempts; 14 successful |
+
 ### 7.2 What we'd still like to measure
 
 - Wall-contact events and completion rate broken out separately for clockwise vs. counter-clockwise runs.
