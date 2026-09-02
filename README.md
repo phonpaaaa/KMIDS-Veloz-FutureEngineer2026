@@ -90,17 +90,17 @@ The six required orientation views, four additional angled shots, and a photo of
 <!-- IMAGES: required six views, using our actual filenames -->
 | Front | Rear | Left |
 |---|---|---|
-| ![Front](assets/front_view.png) | ![Rear](assets/rear_view.png) | ![Left](assets/left_view.png) |
+| ![Front](assets/front_view.jpg) | ![Rear](assets/rear_view.jpg) | ![Left](assets/left_view.jpg) |
 
 | Right | Top | Bottom |
 |---|---|---|
-| ![Right](assets/right_view.png) | ![Top](assets/top_view.png) | ![Bottom](assets/bottom_view.png) |
+| ![Right](assets/right_view.jpg) | ![Top](assets/top_view.jpg) | ![Bottom](assets/bottom_view.jpg) |
 
 **Additional angles:**
 
 | Left side | Left-rear | Right side | Right-rear |
 |---|---|---|---|
-| ![Left side](assets/left_side_view.png) | ![Left rear](assets/left_back_side_view.png) | ![Right side](assets/right_side_view.png) | ![Right rear](assets/right_back_side_view.png) |
+| ![Left side](assets/left_side_view.jpg) | ![Left rear](assets/left_back_side_view.jpg) | ![Right side](assets/right_side_view.jpg) | ![Right rear](assets/right_back_side_view.jpg) |
 
 *In the six orientation views and the additional four angled views, the Li-Po battery is not part of the physical assembly, as it was being tested during the photo-taking process.*
 
@@ -1038,7 +1038,7 @@ The assembly files currently use this file. However, there is little to no diffe
 
 **Chassis V3**, the current revision, shortened the overall chassis by approximately 35 mm. This reduced dead space and improved maneuverability by making the robot more compact.
 
-![Chassis V3](../assets/chassisv3.png)
+![Chassis V3](../assets/chassisv3.jpg)
 
 *Chassis V3*
 
