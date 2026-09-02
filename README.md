@@ -142,16 +142,16 @@ The 20GP-180 is the vehicle's only drive motor. It's mounted at the rear of the 
 
 **Specifications**
 
-| Specification | Value | Source |
+| Specification | Value | Source (evidence) |
 |---|---:|---|
-| Motor | 20GP-180 DC gearmotor | Datasheet |
-| Rated voltage | 6–12 V | Datasheet |
+| Motor | 20GP-180 DC gearmotor | Manufacturer / vendor documentation |
+| Rated voltage | 6–12 V | Manufacturer / vendor documentation |
 | Operating voltage | 12 V (stepped up from the 5V logic rail) | Our configuration |
-| Weight | ~80 g | Datasheet |
-| Gearbox | All-metal planetary | Datasheet |
-| Encoder | Quadrature (AB dual-phase Hall) | Datasheet / hardware |
+| Weight | ~80 g | Vendor specification |
+| Gearbox | All-metal planetary | Vendor specification |
+| Encoder | Quadrature (AB dual-phase Hall) | Vendor specification / hardware |
 | Encoder pulses | 28 pulses/rev | Our firmware |
-| Gear ratio | 100:1 | Our firmware |
+| Gear ratio | 100:1 | Our configuration / hardware |
 | No-load RPM (this ratio) | ~120–150 RPM at 12V | Vendor family curve |
 | Stall torque (this ratio) | ~4–6 kgf·cm at 12V | Vendor family curve |
 
