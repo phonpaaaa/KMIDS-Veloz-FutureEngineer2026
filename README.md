@@ -98,6 +98,8 @@ The six required orientation views, four additional angled shots, and a photo of
 |---|---|---|---|
 | ![Left side](assets/left_side_view.png) | ![Left rear](assets/left_back_side_view.png) | ![Right side](assets/right_side_view.png) | ![Right rear](assets/right_back_side_view.png) |
 
+*In the six orientation views and the additional four angled views, the Li-Po battery is not part of the physical assembly, as it was being tested during the photo-taking process.*
+
 **Internal Electronics:**
 
 <img src="assets/internals.png" alt="Internal electronics" width="50%">
