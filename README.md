@@ -1022,6 +1022,24 @@ Set the robot down on an open mat, start the program, and confirm the reactive c
 
 ### 12.1 Mechanical and Software Iteration History
 
+**Chassis iteration.** The chassis went through three major revisions during development. **Chassis V1** was our initial design and established the basic layout of the drivetrain, electronics, and sensor mounts.
+
+![Chassis V1](../assets/chassisv1.png)
+
+*Chassis V1*
+
+**Chassis V2** repositioned the LIDAR in front of the Raspberry Pi 5 so that the Pi would no longer obstruct the LIDAR's field of view. This revision also compressed the chassis layout slightly to reduce unnecessary space.
+
+![Chassis V2](../assets/chassisv2.png)
+
+*Chassis V2*
+
+**Chassis V3**, the current revision, shortened the overall chassis by approximately 35 mm. This reduced dead space and improved maneuverability by making the robot more compact.
+
+![Chassis V3](../assets/chassisv3.png)
+
+*Chassis V3*
+
 **Hardware selection pass (mechanical).** Before settling on the S0009M servo and RPLidar S3, we evaluated the alternatives compared side by side in Section 2.1, Section 2.2, and Section 3.2. Including a mid-season LIDAR swap after our original unit's range and resolution proved hard to work with reliably. The current Ackermann linkage (Section 2.2) is on its first built revision.
 
 **Control software rewrite.** The season started with `open_challenge.cpp`'s approach: a held IMU heading target, a proportional wall-offset correction against a 300mm outer-wall setpoint, and an explicit five-state machine (`NORMAL`/`PRE_TURN`/`TURNING`/`PRE_STOP`/`STOP`) for lap and turn counting (Section 5.1). Tuning this combination was difficult because the heading-hold term and the turn-detection state machine could disagree about robot behavior near a corner, one reasoning about absolute heading, the other about instantaneous front-wall distance. We moved to the simpler reactive scheme now active in `navigation.cpp` (Section 4.3) to remove that source of disagreement: a single, smaller set of directly-physical constants (deadband, reaction distance, max steering step) proved faster to tune by hand than the two-loop system it replaced. The `open_challenge.cpp` module remains in the repository as documented, maintained code (Section 6) rather than being deleted.
