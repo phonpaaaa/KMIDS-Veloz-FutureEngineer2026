@@ -363,6 +363,8 @@ We evaluated several LIDAR options over the season before settling on the RPLida
 | RPLidar C1 (previous) | Up to 6 m at 10% reflectivity | 5,000 samples/sec | 0.72° | Functional in early testing, but we found it wasn't sufficient for running the robot well. The range and resolution were both very hard to work with at our sector-median update rate. | Vendor specification |
 | RPLidar A1 | Up to 6 m typical, shorter effective range indoors | ~8,000 samples/sec | ~1° (lower resolution) | Cheaper and widely documented, but the coarser angular resolution and lower sample rate give noisier sector medians at our update rate. Rejected for this build. | Vendor specification |
 
+The listed specifications are based on manufacturer specifications; the S3 specifications were cross-checked against an independent listing.
+
 **Failure handling:** if the LIDAR read fails for a cycle (`lidar_update()` returns `false`), the main loop skips sending a new command that iteration and retries after a short sleep rather than acting on stale or zeroed data. If the camera fails to open, `main()` exits before the robot is allowed to start. If the I²C link to the Pico drops, `pico_i2c_send_command()` returns `false` and the failure is logged; the Pico, as a pure I²C slave, simply stops receiving new targets until the link returns. The I²C link includes retry logic on the Pi 5 side and a watchdog timer on the Pico 2.
 
 ### 3.3 Processing Units
@@ -410,12 +412,12 @@ The system uses a dual-voltage topology: a main 5V logic rail supplied via the I
 
 | Component | Rail Voltage | Nominal Current (Idle) | Peak Current (Full Load) | Notes / Source |
 |---|---|---|---|---|
-| **Raspberry Pi 5 (8 GB) + M.2 HAT** | 5V | ~800 mA | ~2,500 mA | Heavy load during CV + LIDAR processing |
-| **Raspberry Pi Pico 2 + IMU (BNO085)** | 5V | ~30 mA | ~50 mA | Deterministic control loop & sensor polling |
-| **Slamtec RPLidar S3** | 5V | ~40 mA | ~400 mA | Active 360° laser scanning |
-| **Fish-eye Camera (5MP)** | 5V | ~150 mA | ~250 mA | See Section 3.2 for exposure lock status |
-| **Surpass Hobby S0009M Servo** | 5V | ~10 mA | ~400 mA | Steering under max cornering torque |
-| **20GP-180 DC Gearmotor** | 12V (boosted) | ~280 mA | ~2,700 mA | Stall / hard acceleration peak |
+| **Raspberry Pi 5 (8 GB) + M.2 HAT** | 5V | ~800 mA | ~2,500 mA | Estimated from manufacturer power specifications and our configuration |
+| **Raspberry Pi Pico 2 + IMU (BNO085)** | 5V | ~30 mA | ~50 mA | Estimated from component specifications and our configuration |
+| **Slamtec RPLidar S3** | 5V | ~40 mA | ~400 mA | Manufacturer specification / operating configuration |
+| **Fish-eye Camera (5MP)** | 5V | ~150 mA | ~250 mA | Manufacturer specification / operating configuration |
+| **Surpass Hobby S0009M Servo** | 5V | ~10 mA | ~400 mA | Manufacturer specification / estimated operating peak |
+| **20GP-180 DC Gearmotor** | 12V (boosted) | ~280 mA | ~2,700 mA | Vendor specification / measured operating behavior |
 
 **Power Budget Summary**
 
