@@ -852,9 +852,13 @@ Slicer profiles (.3mf) are available for all parts in the `Slicer-Files/` folder
 
 This section walks through physical assembly in the order we build the robot, referencing the CAD parts from Section 10. It assumes all electronics are on hand per Section 9 and that 3D printing materials are available.
 
+Currently, the build assembly uses the second version of the chassis. This will result in a completely functional robot, but you may also print the final version of the chassis (v3) with the same slicer profile and follow the instructions. The instructions are still applicable, with the only difference being the length of the chassis. Furthermore, the lidar plate was also modified.
+
+To recreate the latest version of the robot, use `ChassisFinal.FCStd` and `LidarPlateFinal.FCStd` instead of their non-final counterparts. The instructions and printing still apply the same.
+
 ### 1. Print and prep parts.
 
-Print every part listed in Section 10.1 using the slicer settings provided in the `.3mf` files in Section 10.3 where available. For parts without a saved slicer profile, use the settings specified below. Currently, the build assembly uses the second version of the chassis. This will result in a completely functional robot, but you may also print the final version of the chassis (v3) with the same slicer profile and follow the instructions. The instructions are still applicable, with the only difference being the length of the chassis.
+Print every part listed in Section 10.1 using the slicer settings provided in the `.3mf` files in Section 10.3 where available. For parts without a saved slicer profile, use the settings specified below. 
 
 | Part Group | Layer Height | Infill Density | Infill Pattern | Support Type | Build Plate Adhesion Type |
 |---|---|---|---|---|---|
