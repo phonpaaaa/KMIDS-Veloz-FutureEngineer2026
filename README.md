@@ -732,27 +732,37 @@ The current Pi 5 codebase (project `RaspberryPi5Controller`, executable target `
 ### 8.3 Compilation / Upload Instructions
 
 **Dependencies**
-- **Raspberry Pi 5:** OpenCV, libcamera (via the `libcamerasrc` GStreamer pipeline), `libgpiod` (v2 API), `pthread`, and the bundled RPLIDAR SDK (built from `external/rplidar_sdk/`, linked as a static library)
-- **Raspberry Pi Pico 2:** Pico SDK; firmware source is included in `code/raspberry-pi-pico-2/`
+
+- **Raspberry Pi 5:** OpenCV, libcamera (via the `libcamerasrc` GStreamer pipeline), `libgpiod` (v2 API), `pthread`, and the bundled RPLIDAR SDK (built from `code/RaspberryPi5/external/rplidar_sdk/`, linked as a static library)
+
+- **Raspberry Pi Pico 2:** Pico SDK; firmware source is included in `code/Pico2/`
 
 **Building on the Raspberry Pi 5**
+
 ```bash
 git clone <repository-url>
-cd KMIDS-Veloz-FutureEngineer2026
+
+cd KMIDS-Veloz-FutureEngineer2026/code/RaspberryPi5
+
 mkdir -p build && cd build
+
 cmake ..
 make
 ```
-This builds the `rpi5_controller` executable directly from the repository root using the top-level `CMakeLists.txt`, which links against OpenCV, `libgpiod`, `pthread`, and the RPLIDAR SDK static library. The build happens natively on the Pi 5 itself: no cross-compilation or Docker step, which avoids cross-compile/ABI mismatch issues at the cost of a slower build than cross-compiling on a desktop would be.
+
+This builds the `rpi5_controller` executable from the Raspberry Pi 5 project's `CMakeLists.txt`, which links against OpenCV, `pthread`, and the RPLIDAR SDK static library. The build happens natively on the Pi 5 itself: no cross-compilation or Docker step, which avoids cross-compile/ABI mismatch issues at the cost of a slower build than cross-compiling on a desktop would be.
 
 **Running the robot**
+
 ```bash
 cd build
+
 sudo ./rpi5_controller
 ```
+
 `sudo` (or equivalent GPIO/I²C group permissions) is required for GPIO and I²C device access. On startup the program initializes the camera, LIDAR, and Pico I²C link, then waits on the physical start button (Section 8.1) before entering the main control loop.
 
-Pico 2 firmware is built separately using the Pico SDK and flashed to the Pico 2 independently of the Raspberry Pi 5 build. The firmware source is located in `code/raspberry-pi-pico-2/`. Build and flashing instructions are provided in the Pico 2 firmware documentation.
+Pico 2 firmware is built separately using the Pico SDK and flashed to the Pico 2 independently of the Raspberry Pi 5 build. The firmware source is located in `code/Pico2/`. Build and flashing instructions are provided in the Pico 2 firmware documentation.
 
 [Back to Top](#kmids-veloz)
 
