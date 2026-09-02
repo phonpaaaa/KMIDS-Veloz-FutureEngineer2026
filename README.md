@@ -854,7 +854,7 @@ This section walks through physical assembly in the order we build the robot, re
 
 ### 1. Print and prep parts.
 
-Print every part listed in Section 10.1 using the slicer settings provided in the `.3mf` files in Section 10.3 where available. For parts without a saved slicer profile, use the settings specified below.
+Print every part listed in Section 10.1 using the slicer settings provided in the `.3mf` files in Section 10.3 where available. For parts without a saved slicer profile, use the settings specified below. Currently, the build assembly uses the second version of the chassis. This will result in a completely functional robot, but you may also print the final version of the chassis (v3) with the same slicer profile and follow the instructions. The instructions are still applicable, with the only difference being the length of the chassis.
 
 | Part Group | Layer Height | Infill Density | Infill Pattern | Support Type | Build Plate Adhesion Type |
 |---|---|---|---|---|---|
@@ -1033,6 +1033,8 @@ Set the robot down on an open mat, start the program, and confirm the reactive c
 ![Chassis V2](../assets/chassisv2.png)
 
 *Chassis V2*
+
+The assembly files currently use this file. However, there is little to no difference between versions 2 and 3 apart from the length of the chassis instead. Thus, it is completely possible to follow the assembly instructions in Section 11 with Chassis V3.
 
 **Chassis V3**, the current revision, shortened the overall chassis by approximately 35 mm. This reduced dead space and improved maneuverability by making the robot more compact.
 
