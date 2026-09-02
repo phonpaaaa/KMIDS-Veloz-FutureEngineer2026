@@ -15,17 +15,21 @@
 
 ## Team Members
 
-- **Sahas Ninvatchararang (Phonpa)**
-- **Olan Sinsuriya (Olan)**
-- **Phisit Chuthomsuwan (Champ)**
-
 <!-- IMAGE: Team photo -->
+
 ![Team photo](assets/team.png)
+
+| Member Name | Chief Responsibilities | Key Activities |
+|---|---|---|
+| **Sahas Ninvatchararang (Phonpa)** | Robotics, Electronics & Software | Physical robot construction, electronics integration, sensor and motor implementation, programming, control-system development, and testing |
+| **Olan Sinsuriya (Olan)** | CAD, Mechanical Design & Engineering | Chassis and component CAD, mechanical design, assembly development, design iterations, and fabrication support |
+| **Phisit Chuthomsuwan (Champ)** | Documentation, Research & Project Coordination | Technical documentation, research, recording development decisions, organizing project information, and supporting testing and validation |
+
+During the development process, we divided the work while also supporting each other, meaning one person may focus on designing CAD models, while helping debug the initial calibration code. This was to ensure proper coordination and teamwork.
 
 **KMIDS Veloz** is a team of students exploring autonomous driving through mechanical design, embedded systems, computer vision, and control theory. Over the course of the WRO Future Engineers 2026 season, our work has covered hardware selection, CAD design, electronics integration, and the software architecture running on our two onboard boards (Raspberry Pi 5, Raspberry Pico), along with the testing and iteration that shaped each of those decisions. This document outlines our entire process from start to finish, including engineering decisions, hurdles, and the eventual solutions we found after rigorous trials.
 
 ---
-
 ## Table of Contents
 
 1. [Overview](#1-overview)
