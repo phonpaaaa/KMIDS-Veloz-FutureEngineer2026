@@ -300,8 +300,8 @@ The finished chassis body measures 244 mm (long axis) × 135 mm (short axis) × 
 
 | Dimension | Value | Source |
 |---|---|---|
-| Chassis (L × W × H) | 244 × 135 × 59 mm | Measured from CAD |
-| Wheelbase (front-to-rear axle) | 185 mm | Measured from CAD |
+| Chassis (L × W × H) | 209 × 130 × 59 mm | Measured from CAD |
+| Wheelbase (front-to-rear axle) | 181 mm | Measured from CAD |
 | Track width (left-to-right wheel) | 85 mm | Measured from CAD |
 | Wheel diameter | 54.7 mm | Measured from CAD |
 
@@ -770,23 +770,27 @@ Pico 2 firmware is built separately using the Pico SDK and flashed to the Pico 2
 
 ## 9. List of Components
 
-| Component | Model | Quantity |
-|---|---|---:|
-| Single-board computer | Raspberry Pi 5 (8 GB) | 1 |
-| Microcontroller | Raspberry Pi Pico 2 | 1 |
-| PCIe adapter | Raspberry Pi M.2 HAT+ | 1 |
-| LIDAR | Slamtec RPLidar S3 | 1 |
-| Camera | Fish-eye Raspberry Pi 5MP IR Camera | 1 |
-| IMU | BNO085 9-axis IMU | 1 |
-| Drive motor | 20GP-180 DC gearmotor with quadrature encoder (100:1, 28 ppr) | 1 |
-| Steering servo | Surpass Hobby S0009M (9g digital servo) | 1 |
-| Power/UPS module | I²C battery-monitoring UPS (EP-0136-compatible protocol, register `0x17`) | 1 |
-| Drivetrain gearing | LEGO Technic bevel gear + differential gear (`LegoBevelGear`, `LegoDifferentialGear`) | 1 set |
-| Rear axle rod | 16-gauge steel rod (`16GA.FCStd`) | 1 |
-| Motor driver | H-bridge driver board | 1 |
-| Power switch | Physical switch on the battery/UPS pack | 1 |
-| Start button | Momentary push button, GPIO16 | 1 |
-| Camera wire | CSI ribbon cable | 1 |
+| Component | Model | Quantity | Source / Supplier |
+|---|---|---:|---|
+| Single-board computer | Raspberry Pi 5 (8 GB) | 1 | Manufacturer |
+| Microcontroller | Raspberry Pi Pico 2 | 1 | Manufacturer |
+| PCIe adapter | Raspberry Pi M.2 HAT+ | 1 | Manufacturer |
+| LIDAR | Slamtec RPLidar S3 | 1 | Manufacturer |
+| Camera | Fish-eye Raspberry Pi 5MP IR Camera | 1 | Manufacturer / Supplier |
+| IMU | BNO085 9-axis IMU | 1 | Manufacturer |
+| Drive motor | 20GP-180 DC gearmotor with quadrature encoder (100:1, 28 ppr) | 1 | Manufacturer / Supplier |
+| Steering servo | Surpass Hobby S0009M (9g digital servo) | 1 | Manufacturer / Supplier |
+| Power/UPS module | I²C battery-monitoring UPS (EP-0136-compatible protocol, register `0x17`) | 1 | Manufacturer / Supplier |
+| Drivetrain gearing | LEGO Technic bevel gear + differential gear (`LegoBevelGear`, `LegoDifferentialGear`) | 1 set | LEGO |
+| Rear axle rod | 16-gauge steel rod (`16GA.FCStd`) | 1 | Generic component |
+| Motor driver | H-bridge driver board | 1 | Generic component |
+| Power switch | Physical switch on the battery/UPS pack | 1 | Generic component |
+| Start button | Momentary push button, GPIO16 | 1 | Generic component |
+| Camera wire | CSI ribbon cable | 1 | Generic component |
+
+*Generic components (rear axle rod, H-bridge driver board, physical power switch, start button, and CSI ribbon cable) do not have model-specific specifications and were not used as model-specific inputs in calculations.*
+
+**3D Printers Used:** BambuLab P2S, BambuLabP1S. For all final parts, we used the BambuLab P2S. However, to save time during prototyping, we used the P2S and P1S in tandem to shorten printing time and maximize quantity. When the design was finalized, we stuck to strictly the P2S to maximize quality, as it is a more modern version of the P1S, though the difference may not always be noticeable.
 
 The CAD files for the servo and LIDAR mount are named `S0009M_Mount.FCStd` and `RPLidarS3_Mount.FCStd` in the repository.
 
@@ -811,7 +815,7 @@ All mechanical parts are modeled in FreeCAD before printing.
 | Drivetrain (rear) | `MotorGear.FCStd`, `MotorHolder.FCStd`, `MotorPlate.FCStd`, `LegoBevelGear.FCStd`, `LegoDifferentialGear.FCStd`, `16GA.FCStd`, `BackWheelConnector.FCStd`, `BackWheelStopper.FCStd`, `BackWheelAxle/BackWheelAxleLeft.FCStd`, `BackWheelAxle/BackWheelAxleRight.FCStd` |
 | Steering (front) | `AxleHolder.FCStd`, `FrontWheelStopper.FCStd`, `FrontWheelAxle/FrontWheelAxleLeft.FCStd`, `FrontWheelAxle/FrontWheelAxleRight.FCStd`, `TBoneLinkage/TBoneLinkageTop.FCStd`, `TBoneLinkage/TBoneLinkageBottom.FCStd`, `TransferLinkage/TransferLinkageLeft.FCStd`, `TransferLinkage/TransferLinkageRight.FCStd`, `WheelLinkage/WheelLinkageTopLeft.FCStd`, `WheelLinkage/WheelLinkageTopRight.FCStd`, `WheelLinkage/WheelLinkageBottomLeft.FCStd`, `WheelLinkage/WheelLinkageBottomRight.FCStd` |
 | Wheels | `Wheel.FCStd` (×4, printed once and reused) |
-| Electronics mounts | `RaspberryPi5.FCStd`, `RaspberryPi5M2Hat.FCStd`, `RpiCamera.FCStd`, `S0009M_Mount.FCStd` (servo mount for S0009M), `RPLidarS3_Mount.FCStd` (LIDAR mount for RPLidar S3) |
+| Electronics mounts | `RaspberryPi5.FCStd`, `RaspberryPi5M2Hat.FCStd`, `RpiCamera.FCStd`, `S0009M.FCStd` (servo mount for S0009M), `RPLidarS3_Mount.FCStd` (LIDAR mount for RPLidar S3), `20GP-180DC` (motor) |
 
 ### 10.2 STL Files
 
@@ -838,7 +842,7 @@ STL files are exported for all parts and available in the `STL-Files/` folder, n
 | Wheels | ✅ `Wheel.3mf` |
 | Electronics mounts | ✅ `ElectronicsMounts.3mf` |
 
-Slicer profiles (.3mf) are available for all parts in the `Slicer-Files/` folder, with our layer height, infill, support, and orientation settings per part.
+Slicer profiles (.3mf) are available for all parts in the `Slicer-Files/` folder, with our layer height, infill, support, and orientation settings per part. 
 
 [Back to Top](#kmids-veloz)
 
@@ -846,7 +850,7 @@ Slicer profiles (.3mf) are available for all parts in the `Slicer-Files/` folder
 
 ## 11. Building Instructions
 
-This section walks through physical assembly in the order we build the robot, referencing the CAD parts from Section 10. It assumes all electronics are on hand per Section 9 and that 3D printing materials are available..
+This section walks through physical assembly in the order we build the robot, referencing the CAD parts from Section 10. It assumes all electronics are on hand per Section 9 and that 3D printing materials are available.
 
 ### 1. Print and prep parts.
 
@@ -968,7 +972,7 @@ Then, you should be left with this:
 
 #### 3.5. Attach the rear wheels.
 
-Attach the wheels to each `WheelConnector` using 3x M3 screws on each side, similarly to in the front.
+Attach the wheels to each `BackWheelConnector` using 3x M3 screws on each side, similarly to in the front.
 
 ![Rear Assembly Step 5](assets/Rear%20Assembly%20Step%205.png)
 
@@ -996,7 +1000,7 @@ Wire I²C between the Pi 5 and Pico 2 (Pico at address `0x39`), I²C between the
 
 ### 7. Flash the Pico 2.
 
-Build the Pico 2 firmware from `code/raspberry-pi-pico-2/` using the Pico SDK, then flash the resulting `.uf2` file to the Pico 2 using BOOTSEL. See Section 8.3 for the complete build and flashing procedure.
+Build the Pico 2 firmware from `code/Pico2/` using the Pico SDK, then flash the resulting `.uf2` file to the Pico 2 using BOOTSEL. See Section 8.3 for the Pico 2 build information.
 
 ### 8. Build the Pi 5 software.
 
