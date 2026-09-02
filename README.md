@@ -357,11 +357,11 @@ The diagram above shows the four angular sectors (front ±6°, left/right ±8°,
 
 We evaluated several LIDAR options over the season before settling on the RPLidar S3. Our original unit had ranges and angular resolution that were hard to work with reliably at our update rate, so we compared it directly against the S3 and against a cheaper alternative:
 
-| Option | Range (dark/low-reflectivity) | Sample rate | Angular resolution | Why we did / didn't pick it |
-|---|---|---|---|---|
-| RPLidar S3 (chosen) | Up to 15 m at 10% reflectivity | 32,000 samples/sec | 0.1125° | Better low-reflectivity range and a smaller, lighter housing than our previous unit, while keeping the same UART interface and mounting pattern our chassis was already designed around. |
-| RPLidar C1 (previous) | Up to 6 m at 10% reflectivity | 5,000 samples/sec | 0.72° | Functional in early testing, but we found it wasn't sufficient for running the robot well. The range and resolution were both very hard to work with at our sector-median update rate. |
-| RPLidar A1 | Up to 6 m typical, shorter effective range indoors | ~8,000 samples/sec | ~1° (lower resolution) | Cheaper and widely documented, but the coarser angular resolution and lower sample rate give noisier sector medians at our update rate. Rejected for this build. |
+| Option | Range (dark/low-reflectivity) | Sample rate | Angular resolution | Why we did / didn't pick it | Source |
+|---|---|---|---|---|---|
+| RPLidar S3 (chosen) | Up to 15 m at 10% reflectivity | 32,000 samples/sec | 0.1125° | Better low-reflectivity range and a smaller, lighter housing than our previous unit, while keeping the same UART interface and mounting pattern our chassis was already designed around. | Vendor specification |
+| RPLidar C1 (previous) | Up to 6 m at 10% reflectivity | 5,000 samples/sec | 0.72° | Functional in early testing, but we found it wasn't sufficient for running the robot well. The range and resolution were both very hard to work with at our sector-median update rate. | Vendor specification |
+| RPLidar A1 | Up to 6 m typical, shorter effective range indoors | ~8,000 samples/sec | ~1° (lower resolution) | Cheaper and widely documented, but the coarser angular resolution and lower sample rate give noisier sector medians at our update rate. Rejected for this build. | Vendor specification |
 
 **Failure handling:** if the LIDAR read fails for a cycle (`lidar_update()` returns `false`), the main loop skips sending a new command that iteration and retries after a short sleep rather than acting on stale or zeroed data. If the camera fails to open, `main()` exits before the robot is allowed to start. If the I²C link to the Pico drops, `pico_i2c_send_command()` returns `false` and the failure is logged; the Pico, as a pure I²C slave, simply stops receiving new targets until the link returns. The I²C link includes retry logic on the Pi 5 side and a watchdog timer on the Pico 2.
 
