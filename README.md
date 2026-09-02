@@ -687,25 +687,44 @@ The current Pi 5 codebase (project `RaspberryPi5Controller`, executable target `
 
 ```text
 .
-├── src/
-│   ├── main.cpp            # Wires all modules together into the main loop
-│   ├── camera.cpp
-│   ├── lidar.cpp
-│   ├── navigation.cpp
-│   ├── open_challenge.cpp
-│   ├── pico_i2c.cpp
-│   └── start_button.cpp
-├── include/                 # One header per module, same names as above
-├── external/
-│   └── rplidar_sdk/         # RPLIDAR SDK (external, Make-based, built as a static lib)
+├── code/
+│   ├── RaspberryPi5/
+│   │   ├── src/
+│   │   │   ├── main.cpp                # Wires all Pi 5 modules together into the main loop
+│   │   │   ├── camera.cpp              # Camera capture and pillar detection
+│   │   │   ├── lidar.cpp               # RPLIDAR scan processing and distance filtering
+│   │   │   ├── navigation.cpp          # Active reactive navigation controller
+│   │   │   ├── obstaclechallenge.cpp    # Obstacle Challenge pillar-pass logic
+│   │   │   ├── openchallenge.cpp        # Open Challenge heading-hold and lap/turn logic
+│   │   │   ├── parking.cpp             # Parking state machine and alignment logic
+│   │   │   └── pico_i2c.cpp            # Pi 5 ↔ Pico 2 I²C communication
+│   │   ├── include/                    # Header files for Pi 5 modules
+│   │   └── CMakeLists.txt              # Pi 5 build configuration
+│   │
+│   └── Pico2/
+│       ├── src/
+│       │   ├── main.cpp                # Main Pico 2 firmware loop
+│       │   ├── encoder.cpp             # Wheel encoder reading and processing
+│       │   ├── imu.cpp                 # BNO085 IMU reading and processing
+│       │   ├── motor.cpp               # Motor control and PWM output
+│       │   ├── pi_i2c.cpp              # Raspberry Pi 5 ↔ Pico 2 I²C communication
+│       │   ├── servo.cpp               # Steering servo control
+│       │   └── integration_test_backup.cpp # Backup integration-test firmware
+│       ├── include/                    # Header files for Pico 2 modules
+│       ├── lib/
+│       │   └── BNO08x_Pico_Library/    # BNO08x IMU library
+│       ├── .gitignore
+│       ├── CMakeLists.txt              # Pico 2 build configuration
+│       └── pico_sdk_import.cmake       # Pico SDK import configuration
+│
 ├── FreeCAD-Files/
 │   ├── Models/
 │   └── Parts/
 ├── Slicer-Files/
-├── .github/                 # CI workflow (see Section 8.3)
+├── .github/                             # CI workflow
 ├── .gitignore
 ├── LICENSE
-└── CMakeLists.txt
+└── CMakeLists.txt                       # Top-level build configuration
 ```
 
 **Pico 2 firmware:** the Pico 2's firmware, including `PicoCommand`/`PicoTelemetry` handling, PWM output, and encoder/IMU reading on the RP2350 side, is included in `code/raspberry-pi-pico-2/`. It is built separately using the Pico SDK and flashed to the Pico 2 independently of the Pi 5 build described in Section 8.3.
